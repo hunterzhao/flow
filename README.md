@@ -10,6 +10,7 @@ this is a net framework used for asynchronous message communication
 - cd bin
 - ./server    run server
 - ./client    run client
-just support simple echo function
+
+> just support simple echo function
 
 ### continue...
