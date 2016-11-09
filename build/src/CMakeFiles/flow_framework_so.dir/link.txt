@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC  -pthread -std=c++11 -Wall -O2   -shared -Wl,-soname,libflow_framework.so -o ../../lib/libflow_framework.so CMakeFiles/flow_framework_so.dir/flow_loop.cc.o CMakeFiles/flow_framework_so.dir/flow_server.cc.o CMakeFiles/flow_framework_so.dir/flow_client.cc.o  -L/mnt/shared/flow/lib 

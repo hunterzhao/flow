@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/flow.h
+memory
+-
+
+../include/flow_loop.h
+flow.h
+../include/flow.h
+uv.h
+-
+
+../include/flow_server.h
+uv.h
+-
+flow.h
+../include/flow.h
+
+/mnt/shared/flow/server/main.cc
+flow_server.h
+/mnt/shared/flow/server/flow_server.h
+flow_loop.h
+/mnt/shared/flow/server/flow_loop.h
+uv.h
+-
+
