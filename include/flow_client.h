@@ -2,26 +2,34 @@
 #define FLOW_FRAMEWORK_FLOW_Client_H
 #include <uv.h>
 #include "flow.h"
+#include "flow_tcp_handle.h"
 
 namespace flow {
 
 class Loop;
+class TcpHandle;
 DEFINE_SHARED_PTR(Loop);
 
-class FlowClient {
+class FlowClient : public TcpHandle {
 public:
-	static void on_close(uv_handle_t* handle);
-	static void alloc_cb(uv_handle_t* handle, size_t size, uv_buf_t* buf);
-	static void on_read(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf);
-	static void on_write(uv_write_t* req, int status);
+	
 	static void on_connect(uv_connect_t* connection, int status);
+
+    void OnWrite(uv_write_t* req);
     
     FlowClient(LoopPtr loop);
     
-    ~FlowClient();
+    virtual ~FlowClient();
     
     int Connect(const struct sockaddr_in* addr);
+
+    int SendData(const void* data, size_t data_len); 
     
+    void Close(uv_stream_t* handle);
+
+    virtual void OnConnected();//provide the interface for user code
+    virtual void OnDisConnected();
+
 private:
 	uv_tcp_t tcpClient_; 
 	uv_connect_t* connect_; 

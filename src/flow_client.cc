@@ -1,43 +1,21 @@
 #include "flow_client.h"
 #include "flow_loop.h"
-
+#include "flow_tcp_handle.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 namespace flow {
-void FlowClient::on_close(uv_handle_t* handle) {
-	printf("closed.");
-}
-void FlowClient::alloc_cb(uv_handle_t* handle,
-	                       size_t suggested_size,
-	                       uv_buf_t* buf) {
-	buf->base = (char*)malloc(suggested_size * sizeof(char));
-    buf->len = suggested_size;
-}
-void FlowClient::on_read(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
-	if(nread >= 0) {
-	    printf("read: %s\n", buf->base);
-	}
-	else {
-	    uv_close((uv_handle_t*)tcp, on_close);
-	}
-	free(buf->base);
-}
 
-void FlowClient::on_write(uv_write_t* req, int status) {
+void FlowClient::OnWrite(uv_write_t* req) {
 	printf("wrote.\n");
 }
 
 void FlowClient::on_connect(uv_connect_t* connection, int status) {
 	printf("connected.\n");
 	uv_stream_t* stream = connection->handle;
-	uv_buf_t buffer[] = {
-	    {.base = "hello", .len = 5},
-	    {.base = "world", .len = 5}
-	};
-	uv_write_t request;
-	uv_write(&request, stream, buffer, 2, on_write);
-	uv_read_start(stream, alloc_cb, on_read);
+	FlowClient* client= ((FlowClient*)connection->data);
+	stream->data = client;
+	client->SendData("hello",5);
 }
 
 FlowClient::FlowClient(LoopPtr loop): loop_(loop) {
@@ -55,6 +33,21 @@ FlowClient::~FlowClient() {
 }
 
 int FlowClient::Connect(const struct sockaddr_in* addr){
+	connect_->data = this;
     return uv_tcp_connect(connect_, &tcpClient_,  (const struct sockaddr*)addr, on_connect);
 }
+
+int FlowClient::SendData(const void* data, size_t data_len) {
+    return connect_ == nullptr ? -1 : TcpHandle::SendData(connect_->handle, data, data_len);
+} 
+
+void FlowClient::Close(uv_stream_t* handle) {
+    uv_shutdown_t* sreq;
+    sreq = (uv_shutdown_t*)malloc(sizeof* sreq);
+    ASSERT(0 == uv_shutdown(sreq, handle, after_shutdown));
+    printf("close.\n");
+}
+
+void FlowClient::OnConnected() {}//provide the interface for user code
+void FlowClient::OnDisConnected() {}
 }//namespace flow

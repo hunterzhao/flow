@@ -1,17 +1,20 @@
 #ifndef FLOW_FRAMEWORK_FLOW_TCP_HANDLE_H
 #define FLOW_FRAMEWORK_FLOW_TCP_HANDLE_H
 
+#include <uv.h>
+
 namespace flow {
 class TcpHandle {
 public:
-	//socket create
-	TcpHandle();
-    
-    //release socket
-	~TcpHandle();
+    static void read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf);
+    static void write_cb(uv_write_t* req, int status);
+    static void close_cb(uv_handle_t* handle);
+    static void alloc_cb(uv_handle_t* handle, size_t suggested_size,
+                                                uv_buf_t* buf);
+	static void after_shutdown(uv_shutdown_t* req, int status);
 
     //Enable TCP_NODELAY, which disables Nagle’s algorithm.
-    int SetNooDelay(int enable);
+    int SetNoDelay(int enable);
 
     //Enable / disable TCP keep-alive. delay is the initial delay in seconds, ignored when enable is zero.
     int SetKeepAlive(int enable, unsigned int delay);
@@ -19,21 +22,20 @@ public:
     //Enable / disable simultaneous asynchronous accept requests that are queued by the operating system when listening for new TCP connections.
     int SetSimultaneousAccepts(int enable);
     
-    //Bind the handle to an address and port. addr should point to an initialized struct sockaddr_in or struct sockaddr_in6.
-    int Bind(const struct sockaddr* addr, unsigned int flags);
+    static int SendData(uv_stream_t* dest, const void* data, size_t data_len);
+    //socket create
+	TcpHandle();
     
-    //Get the current address to which the handle is bound. 
-    int GetSockName(struct sockaddr* name, int* namelen);
+    //release socket
+	virtual ~TcpHandle();
 
-    //Get the address of the peer connected to the handle. 
-    int GetPeerName(struct sockaddr* name, int* namelen);
+    virtual void OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf);
 
-    //Establish an IPv4 or IPv6 TCP connection. Provide an initialized TCP handle and an uninitialized uv_connect_t
-    int Connect(uv_connect_t* req, const struct sockaddr* addr, uv_connect_cb cb);
+    virtual void OnWrite(uv_write_t* req);
 
+    virtual void OnMessage();
 private:
 	uv_tcp_t* handle_;
-	uv_os_sock_t socket_;
 };
 }
 #endif //FLOW_FRAMEWORK_FLOW_TCP_HANDLE_H

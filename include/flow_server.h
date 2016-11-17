@@ -3,33 +3,28 @@
 
 #include <uv.h>
 #include "flow.h"
+#include "flow_tcp_handle.h"
 
 namespace flow {
 
 class Loop;
 DEFINE_SHARED_PTR(Loop);
 
-class FlowServer {
+class FlowServer : public TcpHandle {
 public:
-
-	static void after_write(uv_write_t* req, int status);
-	static void after_read(uv_stream_t*, ssize_t nread, const uv_buf_t* buf);
-	static void after_shutdown(uv_shutdown_t* req, int status);
-	static void on_close(uv_handle_t* peer);
-	static void on_server_close(uv_handle_t* handle);
-	static void on_connection(uv_stream_t*, int status);
-    static void echo_alloc(uv_handle_t* handle,
-				                       size_t suggested_size,
-				                       uv_buf_t* buf);
+	//static void after_write(uv_write_t* req, int status);
+	static void on_connect(uv_stream_t* server, int status);
 
 	FlowServer(LoopPtr loop);
 
-	~FlowServer();
+	virtual ~FlowServer();
 
 	int Bind(const struct sockaddr_in* addr, unsigned int flags);
 
 	int Listen(int blacklog);
     
+    void Close(uv_stream_t* handle);
+
     LoopPtr GetLoop();
 private:
     uv_tcp_t tcpServer_;
