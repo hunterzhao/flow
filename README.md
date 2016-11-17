@@ -10,7 +10,8 @@ this is a net framework used for asynchronous message communication
 - cd bin
 - ./server    run server
 - ./client    run client
-just support simple echo function
+
+> just support simple echo function
 
 ### continue...
 进一步封装了，逐渐见识到了libuv的异步特性，还有一些线程上调用方法的限制不太懂
