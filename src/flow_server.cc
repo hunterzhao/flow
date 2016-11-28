@@ -1,8 +1,8 @@
-#include "flow_server.h"
-#include "flow_loop.h"
-#include "flow_tcp_handle.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "flow_server.h"
+#include "flow_tcp_handle.h"
+#include "flow_queue.h"
 
 namespace flow {
 
@@ -22,13 +22,13 @@ void FlowServer::on_connect(uv_stream_t* server, int status) {
   int r = uv_tcp_init(loop->self(), (uv_tcp_t*)stream);
   ASSERT(r == 0);
   
-   r = uv_accept(server, stream);
-   ASSERT(r == 0);
+  r = uv_accept(server, stream);
+  ASSERT(r == 0);
    
-   stream->data = (FlowServer*)server->data;
-   r = uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb);
-   ASSERT(r == 0);
-   printf("wait for data\n");
+  stream->data = (FlowServer*)server->data;
+  r = uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb);
+  ASSERT(r == 0);
+  printf("wait for data\n");
 }
 
 FlowServer::FlowServer(LoopPtr loop) : loop_(loop) {
@@ -71,6 +71,13 @@ void FlowServer::Close(uv_stream_t* handle) {
    sreq = (uv_shutdown_t*)malloc(sizeof* sreq);
    ASSERT(0 == uv_shutdown(sreq, handle, TcpHandle::after_shutdown));
    printf("close.\n");
+}
+
+void FlowServer::OnMessage(FlowMessagePtr msg) {
+   //send to target stage
+
+  // stage_id  msg
+  FlowQueueMgr::Instance().SendMessage(123, msg);
 }
 
 LoopPtr FlowServer::GetLoop() {

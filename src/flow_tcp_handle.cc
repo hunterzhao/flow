@@ -40,12 +40,15 @@ void TcpHandle::close_cb(uv_handle_t* handle) {
 void TcpHandle::alloc_cb(uv_handle_t* handle, size_t suggested_size,
                                                 uv_buf_t* buf) {
    buf->base = (char*)malloc(suggested_size * sizeof(char));
+   if (NULL == buf->base)
+      exit(1);
+   memset(buf->base, 0, suggested_size * sizeof(char));
    buf->len = suggested_size;
 }
 
 void TcpHandle::after_shutdown(uv_shutdown_t* req, int status) {
-  uv_close((uv_handle_t*) req->handle, TcpHandle::close_cb);
-  free(req);
+   uv_close((uv_handle_t*) req->handle, TcpHandle::close_cb);
+   free(req);
 }
 
 TcpHandle::TcpHandle() {
@@ -74,7 +77,6 @@ int TcpHandle::SendData(uv_stream_t* dest, const void* data, size_t data_len) {
     };
     uv_write_t request;
     uv_write(&request, dest, buffer, 1, write_cb);
-    uv_read_start(dest, alloc_cb, read_cb); //???
 	return 0;
 }
 
@@ -84,7 +86,9 @@ void TcpHandle::OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
     */
     printf("data is %s \n", buf->base);
     //lock?
-	//OnMessage(/*message*/);
+    FlowMessagePtr msg(new FlowMessage());
+    msg->SetData(buf->base, buf->len);
+	OnMessage(msg);
     //lock?
 }
 
@@ -93,7 +97,7 @@ void TcpHandle::OnWrite(uv_write_t* req) {
 	printf("TcpHandle::OnWrite\n");
 }
 
-void TcpHandle::OnMessage() {
-
+void TcpHandle::OnMessage(FlowMessagePtr msg) {
+    
 }
 }

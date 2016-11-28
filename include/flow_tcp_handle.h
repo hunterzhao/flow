@@ -2,6 +2,7 @@
 #define FLOW_FRAMEWORK_FLOW_TCP_HANDLE_H
 
 #include <uv.h>
+#include "flow_message.h" //pre declaration
 
 namespace flow {
 class TcpHandle {
@@ -33,7 +34,7 @@ public:
 
     virtual void OnWrite(uv_write_t* req);
 
-    virtual void OnMessage();
+    virtual void OnMessage(FlowMessagePtr msg);
 private:
 	uv_tcp_t* handle_;
 };

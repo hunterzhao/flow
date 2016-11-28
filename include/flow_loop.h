@@ -36,7 +36,8 @@ public:
   void loop_stop();
 
 private:
-  uv_loop_t *loop_;
+  uv_loop_t *loop_ = nullptr;
 };
+DEFINE_SHARED_PTR(Loop);
 } //namesapce flow
 #endif // FLOW_FRAMEWORK_FLOW_LOOP_H

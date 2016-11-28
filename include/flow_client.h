@@ -1,14 +1,14 @@
-#ifndef FLOW_FRAMEWORK_FLOW_Client_H
-#define FLOW_FRAMEWORK_FLOW_Client_H
+#ifndef FLOW_FRAMEWORK_FLOW_CLIENT_H
+#define FLOW_FRAMEWORK_FLOW_CLIENT_H
 #include <uv.h>
 #include "flow.h"
 #include "flow_tcp_handle.h"
+#include "flow_loop.h"
+#include "flow_message.h"
 
 namespace flow {
 
-class Loop;
 class TcpHandle;
-DEFINE_SHARED_PTR(Loop);
 
 class FlowClient : public TcpHandle {
 public:
@@ -26,7 +26,8 @@ public:
     int SendData(const void* data, size_t data_len); 
     
     void Close(uv_stream_t* handle);
-
+     
+    virtual void OnMessage(FlowMessagePtr msg);
     virtual void OnConnected();//provide the interface for user code
     virtual void OnDisConnected();
 
@@ -37,5 +38,6 @@ private:
 
     int client_closed_;
 };
+DEFINE_SHARED_PTR(FlowClient);
 }// namespace flow
 #endif //FLOW_FRAMEWORK_FLOW_Client_H

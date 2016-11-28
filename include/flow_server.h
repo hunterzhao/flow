@@ -4,11 +4,10 @@
 #include <uv.h>
 #include "flow.h"
 #include "flow_tcp_handle.h"
+#include "flow_loop.h"
+#include "flow_message.h"
 
 namespace flow {
-
-class Loop;
-DEFINE_SHARED_PTR(Loop);
 
 class FlowServer : public TcpHandle {
 public:
@@ -24,6 +23,8 @@ public:
 	int Listen(int blacklog);
     
     void Close(uv_stream_t* handle);
+    
+    virtual void OnMessage(FlowMessagePtr msg);
 
     LoopPtr GetLoop();
 private:
@@ -32,5 +33,6 @@ private:
 
     int server_closed_;
 };
+DEFINE_SHARED_PTR(FlowServer);
 }
 #endif //FLOW_FRAMEWORK_FLOW_SERVER_H

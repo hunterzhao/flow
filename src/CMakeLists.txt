@@ -3,6 +3,8 @@ add_definitions(-DFLOW_FRAMEWORK_EXPORT)
 set(SOURCE_FILES  
               flow_loop.cc
               flow_tcp_handle.cc
+              flow_queue.cc
+              flow_stage.cc
               flow_server.cc
               flow_client.cc
               )

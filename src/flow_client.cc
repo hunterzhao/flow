@@ -1,5 +1,4 @@
 #include "flow_client.h"
-#include "flow_loop.h"
 #include "flow_tcp_handle.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,7 +14,8 @@ void FlowClient::on_connect(uv_connect_t* connection, int status) {
 	uv_stream_t* stream = connection->handle;
 	FlowClient* client= ((FlowClient*)connection->data);
 	stream->data = client;
-	client->SendData("hello",5);
+	uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb); //???
+	client->SendData("hello", 6);
 }
 
 FlowClient::FlowClient(LoopPtr loop): loop_(loop) {
@@ -46,6 +46,10 @@ void FlowClient::Close(uv_stream_t* handle) {
     sreq = (uv_shutdown_t*)malloc(sizeof* sreq);
     ASSERT(0 == uv_shutdown(sreq, handle, after_shutdown));
     printf("close.\n");
+}
+
+void FlowClient::OnMessage(FlowMessagePtr msg) {
+    
 }
 
 void FlowClient::OnConnected() {}//provide the interface for user code
