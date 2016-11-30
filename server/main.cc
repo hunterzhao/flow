@@ -16,6 +16,7 @@ public:
     
     int OnEvent(FlowMessage msg) {
        std::cout << msg.GetData() << std::endl;
+       // msg.FreeData();
        return 1;
     }
 

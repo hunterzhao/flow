@@ -13,6 +13,7 @@ void TcpHandle::read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
 	    free(buf->base);
 	    uv_shutdown_t* sreq = (uv_shutdown_t*)malloc(sizeof* sreq);
 	    ASSERT(0 == uv_shutdown(sreq, tcp, after_shutdown));
+        //free(tcp); //the opposite point end the connect,free the stream
 	    return;
     }
 
@@ -28,12 +29,15 @@ void TcpHandle::read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
 
 void TcpHandle::write_cb(uv_write_t* req, int status) {
     printf("wrote.\n");
-    //TcpHandle* handle = (TcpHandle*)(req->data);
-  //  handle->OnWrite(req);
+    //char* msgdata = (char*)(req->data);
+    //free(msgdata);
 }
 
 void TcpHandle::close_cb(uv_handle_t* handle) {
-    free(handle);
+    // if (handle != nullptr) {
+    //     free(handle);
+    //     handle = nullptr;
+    // }
     printf("closed.\n");
 }
 
@@ -49,6 +53,7 @@ void TcpHandle::alloc_cb(uv_handle_t* handle, size_t suggested_size,
 void TcpHandle::after_shutdown(uv_shutdown_t* req, int status) {
    uv_close((uv_handle_t*) req->handle, TcpHandle::close_cb);
    free(req);
+   req = nullptr;
 }
 
 TcpHandle::TcpHandle() {
@@ -72,12 +77,21 @@ int TcpHandle::SetSimultaneousAccepts(int enable) {
 }
 
 int TcpHandle::SendData(uv_stream_t* dest, const void* data, size_t data_len) {
+ //    size_t n = strlen(msg);
+ //    uv_buf_t buffer[] = {
+ //        {.base = msg, .len = n}
+ //    };
+ //    uv_write_t* request;
+ //    //request.data = msg->GetData();
+ //    uv_write(request, src, buffer, 1, write_cb);
+	// return 0;
+
     uv_buf_t buffer[] = {
         {.base = (char*)data, .len = data_len}
     };
     uv_write_t request;
     uv_write(&request, dest, buffer, 1, write_cb);
-	return 0;
+    return 0;
 }
 
 void TcpHandle::OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
@@ -87,7 +101,8 @@ void TcpHandle::OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
     printf("data is %s \n", buf->base);
     //lock?
     FlowMessagePtr msg(new FlowMessage());
-    msg->SetData(buf->base, buf->len);
+    msg->SetData(buf->base, strlen(buf->base));
+    free(buf->base);
 	OnMessage(msg);
     //lock?
 }

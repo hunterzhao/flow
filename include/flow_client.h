@@ -23,7 +23,7 @@ public:
     
     int Connect(const struct sockaddr_in* addr);
 
-    int SendData(const void* data, size_t data_len); 
+    int SendData(char* data, size_t data_len); 
     
     void Close(uv_stream_t* handle);
      

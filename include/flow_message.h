@@ -21,14 +21,18 @@ public:
    
    void SetData(char* data, size_t data_len) {	 
       if (data_ == nullptr) {
-        data_ = new char[100];
-        ::memset(data_, 0, 100);
+        data_ = (char*)malloc(data_len * sizeof(char));
+        ::memset(data_, 0, data_len);
       } else {
-        delete[] data_;
-        data_ = nullptr;
+        //FreeData();
       }
       ::memcpy(data_, data, data_len);
       data_len_ = data_len;
+   }
+
+   void FreeData() {
+      free(data_);
+      data_ = nullptr;
    }
 private:
    char * data_ = nullptr;
