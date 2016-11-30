@@ -2,6 +2,7 @@
 #define FLOW_FRAMEWORK_QUEUE_H
 
 #include <mutex>
+#include <condition_variable>
 #include <queue>
 
 namespace flow {
@@ -11,38 +12,35 @@ public:
     Queue() {}
 
 	T PopOne() {
-        if (IsEmpty()) return T();
+		std::unique_lock<std::mutex> lck(mtx_);
+        cv.wait(lck, [this] { return !queue_.empty();});
         T res = queue_.front();
-        mtx.lock();
         queue_.pop();
-        mtx.unlock();
         return res;
 	}
 
 	int PushOne(const T& val) {
-		mtx.lock();
+		std::unique_lock<std::mutex> lck(mtx_);
         queue_.push(val);
-        mtx.unlock();
+        cv.notify_one(); 
         return 0;
 	}
 
 	size_t GetSize() {
-		mtx.lock();
+		std::lock_guard<std::mutex> lck(mtx_);
 		size_t n = queue_.size();
-		mtx.unlock();
 		return n;
 	}
 
 	bool IsEmpty() {
-		mtx.lock();
-		bool flag = queue_.empty();
-		mtx.unlock();
-		return flag;
+		std::lock_guard<std::mutex> lck(mtx_);
+		return queue_.empty();
 	}
 private:
 	size_t size_;
 	size_t capacity_;
-	std::mutex mtx;
+	std::mutex mtx_;
+	std::condition_variable cv;
 	std::queue<T> queue_;
 };
 }

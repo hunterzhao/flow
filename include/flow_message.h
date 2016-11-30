@@ -20,14 +20,15 @@ public:
    size_t GetDataLen() { return data_len_; }
    
    void SetData(char* data, size_t data_len) {	 
+      data_len_ = data_len + 1;
       if (data_ == nullptr) {
-        data_ = (char*)malloc(data_len * sizeof(char));
-        ::memset(data_, 0, data_len);
+        data_ = (char*)malloc(data_len_ * sizeof(char));
+        ::memset(data_, 0, data_len_);
       } else {
         //FreeData();
       }
-      ::memcpy(data_, data, data_len);
-      data_len_ = data_len;
+      ::memcpy(data_, data, data_len_);
+      
    }
 
    void FreeData() {

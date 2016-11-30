@@ -28,6 +28,7 @@ int main(int args, char* argv[]) {
   FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(123);
   TestStage stageA(p);
   std::thread tha([&stageA]() {stageA.Run();});
+  tha.detach();
   //server:
   FlowServerPtr server (new FlowServer(loop));
   //FlowManager::Instance().AddHandle(server);

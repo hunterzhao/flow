@@ -11,7 +11,7 @@ void TcpHandle::read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
 	    ASSERT(nread == UV_EOF);
         printf("end of file \n");
 	    free(buf->base);
-	    uv_shutdown_t* sreq = (uv_shutdown_t*)malloc(sizeof* sreq);
+	    uv_shutdown_t* sreq = (uv_shutdown_t*)malloc(sizeof(uv_shutdown_t));
 	    ASSERT(0 == uv_shutdown(sreq, tcp, after_shutdown));
         //free(tcp); //the opposite point end the connect,free the stream
 	    return;
@@ -29,6 +29,8 @@ void TcpHandle::read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
 
 void TcpHandle::write_cb(uv_write_t* req, int status) {
     printf("wrote.\n");
+    free(req);
+    req = nullptr;
     //char* msgdata = (char*)(req->data);
     //free(msgdata);
 }
@@ -89,8 +91,8 @@ int TcpHandle::SendData(uv_stream_t* dest, const void* data, size_t data_len) {
     uv_buf_t buffer[] = {
         {.base = (char*)data, .len = data_len}
     };
-    uv_write_t request;
-    uv_write(&request, dest, buffer, 1, write_cb);
+    uv_write_t* request = (uv_write_t*)malloc(sizeof(uv_write_t));;
+    uv_write(request, dest, buffer, 1, write_cb);
     return 0;
 }
 

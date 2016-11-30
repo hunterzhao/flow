@@ -17,8 +17,6 @@ void FlowStage::Run() {
 	}
 
 	while(queue_) {
-		if (queue_->IsEmpty())
-			continue;
        FlowMessage msg = queue_->PopOne();
        if (OnEvent(msg) < 0)
        	   break;
