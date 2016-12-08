@@ -2,13 +2,14 @@
 #define FLOW_FRAMEWORK_FLOW_SERVER_H
 
 #include <uv.h>
+
 #include "flow.h"
 #include "flow_tcp_handle.h"
 #include "flow_loop.h"
-#include "flow_message.h"
 
 namespace flow {
-
+class FlowMessage;
+DEFINE_SHARED_PTR(FlowMessage);
 class FlowServer : public TcpHandle {
 public:
 	//static void after_write(uv_write_t* req, int status);
@@ -24,7 +25,7 @@ public:
     
     void Close(uv_stream_t* handle);
     
-    virtual void OnMessage(FlowMessagePtr msg);
+    virtual void OnMessage(FlowMessagePtr msg, uv_stream_t* tcp);
 
     LoopPtr GetLoop();
 private:

@@ -1,0 +1,41 @@
+\hypertarget{classflow_1_1_flow_server}{}\section{flow\+:\+:Flow\+Server Class Reference}
+\label{classflow_1_1_flow_server}\index{flow\+::\+Flow\+Server@{flow\+::\+Flow\+Server}}
+Inheritance diagram for flow\+:\+:Flow\+Server\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classflow_1_1_flow_server}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Flow\+Server} (Loop\+Ptr loop)\hypertarget{classflow_1_1_flow_server_af404150ae21b7a3aca8740cd9d621d49}{}\label{classflow_1_1_flow_server_af404150ae21b7a3aca8740cd9d621d49}
+
+\item 
+int {\bfseries Bind} (const struct sockaddr\+\_\+in $\ast$addr, unsigned int flags)\hypertarget{classflow_1_1_flow_server_a2206effa33c78de525aa2eaea475d7c0}{}\label{classflow_1_1_flow_server_a2206effa33c78de525aa2eaea475d7c0}
+
+\item 
+int {\bfseries Listen} (int blacklog)\hypertarget{classflow_1_1_flow_server_a897891d106586a8bc209591924527951}{}\label{classflow_1_1_flow_server_a897891d106586a8bc209591924527951}
+
+\item 
+void {\bfseries Close} (uv\+\_\+stream\+\_\+t $\ast$handle)\hypertarget{classflow_1_1_flow_server_aa9db6224c17592aca43ce35d36910316}{}\label{classflow_1_1_flow_server_aa9db6224c17592aca43ce35d36910316}
+
+\item 
+virtual void {\bfseries On\+Message} (Flow\+Message\+Ptr msg, uv\+\_\+stream\+\_\+t $\ast$tcp)\hypertarget{classflow_1_1_flow_server_a702f68ebe4f02cf96b8583f9cddaf627}{}\label{classflow_1_1_flow_server_a702f68ebe4f02cf96b8583f9cddaf627}
+
+\item 
+Loop\+Ptr {\bfseries Get\+Loop} ()\hypertarget{classflow_1_1_flow_server_a961e1438951482d7f80f3b6b3afa76e5}{}\label{classflow_1_1_flow_server_a961e1438951482d7f80f3b6b3afa76e5}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void {\bfseries on\+\_\+connect} (uv\+\_\+stream\+\_\+t $\ast$server, int status)\hypertarget{classflow_1_1_flow_server_a4145cb20862c2f798339752763aaf0ad}{}\label{classflow_1_1_flow_server_a4145cb20862c2f798339752763aaf0ad}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/flow\+\_\+server.\+h\item 
+src/flow\+\_\+server.\+cc\end{DoxyCompactItemize}

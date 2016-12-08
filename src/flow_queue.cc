@@ -1,5 +1,6 @@
-#include "flow_queue.h"
 #include <iostream>
+
+#include "flow_queue.h"
 
 namespace flow {
 FlowQueueMgr::~FlowQueueMgr() {}
@@ -34,6 +35,6 @@ int FlowQueueMgr::SendMessage(int id, FlowMessagePtr msg) {
 		std::cout << " queue is not exist\n"<<std::endl;
 		return -1;
 	}
-	return it->second->PushOne(*msg);
+	return it->second->PushOne(msg);
 }
 } //end of namespace

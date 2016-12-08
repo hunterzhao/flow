@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "flow_loop.h"
 
 namespace flow {
@@ -12,6 +14,7 @@ Loop::Loop() {
 
 Loop::~Loop() {
 	int ret = uv_loop_close(loop_);
+    std::cout << "happy ending of loop" << std::endl;
 	// if (ret & UV_EBUSY) {
 	// 	LOG(error) << "loop is busy executing";
 	// }

@@ -1,0 +1,50 @@
+\hypertarget{classflow_1_1_flow_client}{}\section{flow\+:\+:Flow\+Client Class Reference}
+\label{classflow_1_1_flow_client}\index{flow\+::\+Flow\+Client@{flow\+::\+Flow\+Client}}
+Inheritance diagram for flow\+:\+:Flow\+Client\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classflow_1_1_flow_client}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries On\+Write} (uv\+\_\+write\+\_\+t $\ast$req)\hypertarget{classflow_1_1_flow_client_a5ba3b4c9a957cdca466b7a6e01dba5b7}{}\label{classflow_1_1_flow_client_a5ba3b4c9a957cdca466b7a6e01dba5b7}
+
+\item 
+{\bfseries Flow\+Client} (Loop\+Ptr loop)\hypertarget{classflow_1_1_flow_client_ac3a36db5ffd694de6707b74d248fa479}{}\label{classflow_1_1_flow_client_ac3a36db5ffd694de6707b74d248fa479}
+
+\item 
+int {\bfseries Connect} (const struct sockaddr\+\_\+in $\ast$addr)\hypertarget{classflow_1_1_flow_client_a12e2ac3a308ec56a045247a6e69bf2ba}{}\label{classflow_1_1_flow_client_a12e2ac3a308ec56a045247a6e69bf2ba}
+
+\item 
+int {\bfseries Send\+Message} (const Flow\+Message\+Ptr msg)\hypertarget{classflow_1_1_flow_client_a0fe4cb2ac9e0f0f3f29f15b40db4f083}{}\label{classflow_1_1_flow_client_a0fe4cb2ac9e0f0f3f29f15b40db4f083}
+
+\item 
+int {\bfseries Send\+Data} (const char $\ast$data, size\+\_\+t datalen)\hypertarget{classflow_1_1_flow_client_a62c5687e6f9f6c50a4e2a500c8305119}{}\label{classflow_1_1_flow_client_a62c5687e6f9f6c50a4e2a500c8305119}
+
+\item 
+void {\bfseries Close} (uv\+\_\+stream\+\_\+t $\ast$handle)\hypertarget{classflow_1_1_flow_client_aac41116993040256279a2c62306ec420}{}\label{classflow_1_1_flow_client_aac41116993040256279a2c62306ec420}
+
+\item 
+virtual void {\bfseries On\+Message} (Flow\+Message\+Ptr msg)\hypertarget{classflow_1_1_flow_client_af43b4ad866dad8058ba85427d5d6641b}{}\label{classflow_1_1_flow_client_af43b4ad866dad8058ba85427d5d6641b}
+
+\item 
+virtual void {\bfseries On\+Connected} ()\hypertarget{classflow_1_1_flow_client_a612475e9e473454296446e7c21149d56}{}\label{classflow_1_1_flow_client_a612475e9e473454296446e7c21149d56}
+
+\item 
+virtual void {\bfseries On\+Dis\+Connected} ()\hypertarget{classflow_1_1_flow_client_ad039c16d084b55c49d733554a192132a}{}\label{classflow_1_1_flow_client_ad039c16d084b55c49d733554a192132a}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void {\bfseries on\+\_\+connect} (uv\+\_\+connect\+\_\+t $\ast$connection, int status)\hypertarget{classflow_1_1_flow_client_a94162b68f527cb032f1319d28c164a95}{}\label{classflow_1_1_flow_client_a94162b68f527cb032f1319d28c164a95}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/flow\+\_\+client.\+h\item 
+src/flow\+\_\+client.\+cc\end{DoxyCompactItemize}

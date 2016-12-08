@@ -1,15 +1,17 @@
 #ifndef FLOW_FRAMEWORK_FLOW_QUEUE_H
 #define FLOW_FRAMEWORK_FLOW_QUEUE_H
 
+#include <unordered_map>
+
 #include "flow.h"
 #include "singleton.h"
 #include "flow_message.h"
 #include "queue.h"
-#include <unordered_map>
+
 
 namespace flow {
 
-typedef Queue<FlowMessage> FlowQueue;
+typedef Queue<FlowMessagePtr> FlowQueue;
 DEFINE_SHARED_PTR(FlowQueue);
 
 class FlowQueueMgr : public Singleton<FlowQueueMgr> {

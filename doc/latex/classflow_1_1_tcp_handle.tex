@@ -1,0 +1,59 @@
+\hypertarget{classflow_1_1_tcp_handle}{}\section{flow\+:\+:Tcp\+Handle Class Reference}
+\label{classflow_1_1_tcp_handle}\index{flow\+::\+Tcp\+Handle@{flow\+::\+Tcp\+Handle}}
+Inheritance diagram for flow\+:\+:Tcp\+Handle\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classflow_1_1_tcp_handle}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries Set\+No\+Delay} (int enable)\hypertarget{classflow_1_1_tcp_handle_aeecda777ffdc732455658e37045b2756}{}\label{classflow_1_1_tcp_handle_aeecda777ffdc732455658e37045b2756}
+
+\item 
+int {\bfseries Set\+Keep\+Alive} (int enable, unsigned int delay)\hypertarget{classflow_1_1_tcp_handle_a87f92b9050d429cb34176069c39cf152}{}\label{classflow_1_1_tcp_handle_a87f92b9050d429cb34176069c39cf152}
+
+\item 
+int {\bfseries Set\+Simultaneous\+Accepts} (int enable)\hypertarget{classflow_1_1_tcp_handle_a6d1108eae7146defb6bb9ce2589c908a}{}\label{classflow_1_1_tcp_handle_a6d1108eae7146defb6bb9ce2589c908a}
+
+\item 
+virtual void {\bfseries On\+Read} (uv\+\_\+stream\+\_\+t $\ast$tcp, ssize\+\_\+t nread, const uv\+\_\+buf\+\_\+t $\ast$buf)\hypertarget{classflow_1_1_tcp_handle_ac67a23fb5711a520aefd8dfca4b7a1b1}{}\label{classflow_1_1_tcp_handle_ac67a23fb5711a520aefd8dfca4b7a1b1}
+
+\item 
+virtual void {\bfseries On\+Write} (uv\+\_\+write\+\_\+t $\ast$req)\hypertarget{classflow_1_1_tcp_handle_ae36e5fe3cedd3ca1467134c6d8bba3bf}{}\label{classflow_1_1_tcp_handle_ae36e5fe3cedd3ca1467134c6d8bba3bf}
+
+\item 
+virtual void {\bfseries On\+Message} (Flow\+Message\+Ptr msg, uv\+\_\+stream\+\_\+t $\ast$tcp)\hypertarget{classflow_1_1_tcp_handle_a23c11f6820b8f36cd9ba646fc16aaf55}{}\label{classflow_1_1_tcp_handle_a23c11f6820b8f36cd9ba646fc16aaf55}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void {\bfseries read\+\_\+cb} (uv\+\_\+stream\+\_\+t $\ast$tcp, ssize\+\_\+t nread, const uv\+\_\+buf\+\_\+t $\ast$buf)\hypertarget{classflow_1_1_tcp_handle_a43afbe534f62ae875f3b6e5cb68a10b3}{}\label{classflow_1_1_tcp_handle_a43afbe534f62ae875f3b6e5cb68a10b3}
+
+\item 
+static void {\bfseries write\+\_\+cb} (uv\+\_\+write\+\_\+t $\ast$req, int status)\hypertarget{classflow_1_1_tcp_handle_a4203c561a5db3d2f777c68bdbcf7eeee}{}\label{classflow_1_1_tcp_handle_a4203c561a5db3d2f777c68bdbcf7eeee}
+
+\item 
+static void {\bfseries close\+\_\+cb} (uv\+\_\+handle\+\_\+t $\ast$handle)\hypertarget{classflow_1_1_tcp_handle_aeb5ca757f880827ad8e6c217694dd128}{}\label{classflow_1_1_tcp_handle_aeb5ca757f880827ad8e6c217694dd128}
+
+\item 
+static void {\bfseries alloc\+\_\+cb} (uv\+\_\+handle\+\_\+t $\ast$handle, size\+\_\+t suggested\+\_\+size, uv\+\_\+buf\+\_\+t $\ast$buf)\hypertarget{classflow_1_1_tcp_handle_ac8e62ea5770076bab1897c51e2537f09}{}\label{classflow_1_1_tcp_handle_ac8e62ea5770076bab1897c51e2537f09}
+
+\item 
+static void {\bfseries after\+\_\+shutdown} (uv\+\_\+shutdown\+\_\+t $\ast$req, int status)\hypertarget{classflow_1_1_tcp_handle_a92929da25e442de08a290ba0b1aefbb7}{}\label{classflow_1_1_tcp_handle_a92929da25e442de08a290ba0b1aefbb7}
+
+\item 
+static int {\bfseries Send\+Message} (uv\+\_\+stream\+\_\+t $\ast$dest, Flow\+Message\+Ptr msg)\hypertarget{classflow_1_1_tcp_handle_af96150eb63f535530c2b77f8314a89e3}{}\label{classflow_1_1_tcp_handle_af96150eb63f535530c2b77f8314a89e3}
+
+\item 
+static int {\bfseries Send\+Data} (uv\+\_\+stream\+\_\+t $\ast$dest, const void $\ast$data, size\+\_\+t data\+\_\+len)\hypertarget{classflow_1_1_tcp_handle_ad0fb6b3a0c7570fb23e8de98d12c005a}{}\label{classflow_1_1_tcp_handle_ad0fb6b3a0c7570fb23e8de98d12c005a}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/flow\+\_\+tcp\+\_\+handle.\+h\item 
+src/flow\+\_\+tcp\+\_\+handle.\+cc\end{DoxyCompactItemize}

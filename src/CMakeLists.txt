@@ -2,11 +2,14 @@ add_definitions(-DFLOW_FRAMEWORK_EXPORT)
 
 set(SOURCE_FILES  
               flow_loop.cc
+              flow_message.cc
               flow_tcp_handle.cc
               flow_queue.cc
               flow_stage.cc
+              flow_actor.cc             
               flow_server.cc
               flow_client.cc
+              flow_session.cc
               )
 
 if(TARGET flow_framework)

@@ -17,7 +17,7 @@ void FlowStage::Run() {
 	}
 
 	while(queue_) {
-       FlowMessage msg = queue_->PopOne();
+       FlowMessagePtr msg = queue_->PopOne();
        if (OnEvent(msg) < 0)
        	   break;
 	}
@@ -28,16 +28,16 @@ void FlowStage::Run() {
 	}
 }
 
-int FlowStage::OnEvent(FlowMessage msg) {
-   
+int FlowStage::OnEvent(FlowMessagePtr msg) {
+   return 1;
 }
 
 int FlowStage::OnStart() {
-   
+   return 1;
 }
 
 int FlowStage::OnStop() {
-
+   return 1;
 }
 
 }

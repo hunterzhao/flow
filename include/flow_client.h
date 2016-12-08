@@ -1,6 +1,7 @@
 #ifndef FLOW_FRAMEWORK_FLOW_CLIENT_H
 #define FLOW_FRAMEWORK_FLOW_CLIENT_H
 #include <uv.h>
+
 #include "flow.h"
 #include "flow_tcp_handle.h"
 #include "flow_loop.h"
@@ -23,7 +24,9 @@ public:
     
     int Connect(const struct sockaddr_in* addr);
 
-    int SendData(char* data, size_t data_len); 
+    int SendMessage(const FlowMessagePtr msg); 
+
+    int SendData(const char* data, size_t datalen);
     
     void Close(uv_stream_t* handle);
      

@@ -1,5 +1,5 @@
-#include "flow.h"
 #include "flow_tcp_handle.h"
+#include "flow_message.h"
 
 namespace flow {
 
@@ -78,20 +78,22 @@ int TcpHandle::SetSimultaneousAccepts(int enable) {
     return uv_tcp_simultaneous_accepts(handle_, enable);
 }
 
-int TcpHandle::SendData(uv_stream_t* dest, const void* data, size_t data_len) {
- //    size_t n = strlen(msg);
- //    uv_buf_t buffer[] = {
- //        {.base = msg, .len = n}
- //    };
- //    uv_write_t* request;
- //    //request.data = msg->GetData();
- //    uv_write(request, src, buffer, 1, write_cb);
-	// return 0;
+int TcpHandle::SendMessage(uv_stream_t* dest, FlowMessagePtr msg) {
+    const char* data = msg->Decode();
+    size_t datalen = strlen(data);
+    uv_buf_t buffer[] = {
+        {.base = (char*)data, .len = datalen}
+    };
+    uv_write_t* request = (uv_write_t*)malloc(sizeof(uv_write_t));
+    uv_write(request, dest, buffer, 1, write_cb);
+    return 0;
+}
 
+int TcpHandle::SendData(uv_stream_t* dest, const void* data, size_t data_len) {
     uv_buf_t buffer[] = {
         {.base = (char*)data, .len = data_len}
     };
-    uv_write_t* request = (uv_write_t*)malloc(sizeof(uv_write_t));;
+    uv_write_t* request = (uv_write_t*)malloc(sizeof(uv_write_t));
     uv_write(request, dest, buffer, 1, write_cb);
     return 0;
 }
@@ -103,9 +105,9 @@ void TcpHandle::OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
     printf("data is %s \n", buf->base);
     //lock?
     FlowMessagePtr msg(new FlowMessage());
-    msg->SetData(buf->base, strlen(buf->base));
+    msg->Encode(buf->base); //encode the json string
     free(buf->base);
-	OnMessage(msg);
+	OnMessage(msg, tcp);
     //lock?
 }
 
@@ -114,7 +116,7 @@ void TcpHandle::OnWrite(uv_write_t* req) {
 	printf("TcpHandle::OnWrite\n");
 }
 
-void TcpHandle::OnMessage(FlowMessagePtr msg) {
+void TcpHandle::OnMessage(FlowMessagePtr msg, uv_stream_t* tcp) {
     
 }
 }

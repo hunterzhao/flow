@@ -2,42 +2,40 @@
 #define FLOW_FRAMEWORK_MESSAGE_H
 
 #include <string.h>
-#include "flow.h"
 #include <iostream>
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "flow.h"
+
 namespace flow {
 class FlowMessage {
 public:
-   FlowMessage() {
-      // data_ = new char[100];
-      // ::memset(data_, 0, 100);
-   }
+   FlowMessage();
 
-   ~FlowMessage() {
-      // delete[] data_;
-      // data_ = nullptr;
-   }
-   char * GetData() { return data_; }
-   size_t GetDataLen() { return data_len_; }
+   ~FlowMessage();
+
+   const char* GetOptionStr(const char* key);
+   int GetOptionInt(const char* key);
+
+   void AddOption(const char* key, const char* val);
+   void AddOption(const char* key, int val);
    
-   void SetData(char* data, size_t data_len) {	 
-      data_len_ = data_len + 1;
-      if (data_ == nullptr) {
-        data_ = (char*)malloc(data_len_ * sizeof(char));
-        ::memset(data_, 0, data_len_);
-      } else {
-        //FreeData();
-      }
-      ::memcpy(data_, data, data_len_);
-      
-   }
+   void Encode(const char* json);
 
-   void FreeData() {
-      free(data_);
-      data_ = nullptr;
+   const char* Decode();
+
+   void SetData(const char* data, size_t data_len);
+
+   void FreeData();
+
+private: //??
+   FlowMessage(FlowMessage const & other) {  //???
+      // this.document_ = other.document_;
    }
-private:
    char * data_ = nullptr;
    size_t data_len_ = 0;
+   rapidjson::Document document_;
 };
 DEFINE_SHARED_PTR(FlowMessage);
 }

@@ -2,9 +2,13 @@
 #define FLOW_FRAMEWORK_FLOW_TCP_HANDLE_H
 
 #include <uv.h>
-#include "flow_message.h" //pre declaration
+
+#include "flow.h"
 
 namespace flow {
+    
+class FlowMessage;
+DEFINE_SHARED_PTR(FlowMessage);
 class TcpHandle {
 public:
     static void read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf);
@@ -23,6 +27,7 @@ public:
     //Enable / disable simultaneous asynchronous accept requests that are queued by the operating system when listening for new TCP connections.
     int SetSimultaneousAccepts(int enable);
     
+    static int SendMessage(uv_stream_t* dest, FlowMessagePtr msg);
     static int SendData(uv_stream_t* dest, const void* data, size_t data_len);
     //socket create
 	TcpHandle();
@@ -34,7 +39,7 @@ public:
 
     virtual void OnWrite(uv_write_t* req);
 
-    virtual void OnMessage(FlowMessagePtr msg);
+    virtual void OnMessage(FlowMessagePtr msg, uv_stream_t* tcp);
 private:
 	uv_tcp_t* handle_;
 };

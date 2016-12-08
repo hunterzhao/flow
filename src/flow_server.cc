@@ -1,22 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "uv.h"
+
 #include "flow_server.h"
-#include "flow_tcp_handle.h"
 #include "flow_queue.h"
+#include "flow_message.h"
+#include "flow_session.h"
+
 
 namespace flow {
 
 void FlowServer::on_connect(uv_stream_t* server, int status) {
-  LoopPtr loop = ((FlowServer*)server->data)->GetLoop();
+  LoopPtr loop = ((FlowServer*)(server->data) )->GetLoop();
   printf("accpet connect\n");
   uv_stream_t* stream;
   
   if (status != 0) {
     fprintf(stderr, "Connect error %s\n", uv_err_name(status));
   }
-  ASSERT(status == 0);
+  ASSERT(status == 0) ;
 
- 
   stream = (uv_stream_t*)malloc(sizeof(uv_tcp_t));
   ASSERT(stream != NULL);
   int r = uv_tcp_init(loop->self(), (uv_tcp_t*)stream);
@@ -24,8 +28,10 @@ void FlowServer::on_connect(uv_stream_t* server, int status) {
   
   r = uv_accept(server, stream);
   ASSERT(r == 0);
-   
-  stream->data = (FlowServer*)server->data;
+  
+  SessionMgr::Instance().AddNewSession(stream);
+  
+  stream->data = (FlowServer*)(server->data);
   r = uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb);
   ASSERT(r == 0);
   printf("wait for data\n");
@@ -73,10 +79,12 @@ void FlowServer::Close(uv_stream_t* handle) {
    printf("close.\n");
 }
 
-void FlowServer::OnMessage(FlowMessagePtr msg) {
-   //send to target stage
-
+void FlowServer::OnMessage(FlowMessagePtr msg, uv_stream_t* tcp) {
+  //send to target stage
   // stage_id  msg
+  
+  session_t session_id = SessionMgr::Instance().GetSessionID(tcp);
+  msg->AddOption("session_id", session_id);  //add communication message
   FlowQueueMgr::Instance().SendMessage(123, msg);
 }
 

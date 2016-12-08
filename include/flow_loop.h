@@ -1,8 +1,10 @@
 #ifndef FLOW_FRAMEWORK_FLOW_LOOP_H
 #define FLOW_FRAMEWORK_FLOW_LOOP_H
 
-#include "flow.h"
 #include <uv.h>
+
+#include "flow.h"
+
 namespace flow {
 
 class Loop {

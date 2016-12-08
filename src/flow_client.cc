@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "flow_client.h"
 #include "flow_tcp_handle.h"
 #include "flow_message.h"
@@ -15,14 +16,13 @@ void FlowClient::on_connect(uv_connect_t* connection, int status) {
 	uv_stream_t* stream = connection->handle;
 	FlowClient* client= ((FlowClient*)connection->data);
 	stream->data = client;
-	uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb); //lead to invalid read
-	char* data = "hello world";
-	//FlowMessagePtr msg(new FlowMessage());// why?
-    //msg->SetData(data, strlen(data));
-	client->SendData(data, strlen(data));
-	//client->SendData("hello", 6);
-	//uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb); //???
-	//client->SendData("hello", 6);
+	uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb); 
+	
+	const char* data = "hello world";
+	FlowMessagePtr msg(new FlowMessage());
+    msg->AddOption("data", data);
+	client->SendMessage(msg);
+	//msg->FreeData();
 }
 
 FlowClient::FlowClient(LoopPtr loop): loop_(loop) {
@@ -51,9 +51,14 @@ int FlowClient::Connect(const struct sockaddr_in* addr){
     return uv_tcp_connect(connect_, &tcpClient_,  (const struct sockaddr*)addr, on_connect);
 }
 
-int FlowClient::SendData(char* data, size_t data_len) {
+int FlowClient::SendMessage(const FlowMessagePtr msg) {
 	
-    return connect_ == nullptr ? -1 : TcpHandle::SendData(connect_->handle, data, data_len);
+    return connect_ == nullptr ? -1 : TcpHandle::SendMessage(connect_->handle, msg);
+} 
+
+int FlowClient::SendData(const char* data, size_t datalen) {
+	
+    return connect_ == nullptr ? -1 : TcpHandle::SendData(connect_->handle, data, datalen);
 } 
 
 void FlowClient::Close(uv_stream_t* handle) {

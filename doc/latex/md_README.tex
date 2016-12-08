@@ -1,0 +1,55 @@
+this is a net framework used for asynchronous message communication
+
+\subsubsection*{install}
+
+
+\begin{DoxyEnumerate}
+\item install libuv in ordinary directory
+\item git clone this project
+\item cd build \&\& cmake .. \&\& make
+\end{DoxyEnumerate}
+
+\subsubsection*{run}
+
+
+\begin{DoxyItemize}
+\item cd bin
+\item ./server run server
+\item ./client run client
+\end{DoxyItemize}
+
+\begin{quote}
+just support simple echo function \end{quote}
+
+
+\subsubsection*{continue...}
+
+
+\begin{DoxyItemize}
+\item 2016.\+11.\+24 进一步封装了，逐渐见识到了libuv的异步特性，还有一些线程上调用方法的限制不太懂
+\item 2016.\+11.\+28 写了初步的stage，线程
+\item 2016.\+11.\+30 完成线程同步工作，解决若干内存bug，stage已经正常使用
+\end{DoxyItemize}
+
+\subsubsection*{T\+O\+DO...}
+
+
+\begin{DoxyItemize}
+\item 异步情况下，程序如何设计使用？
+\item server端并不会管理有哪些客户连接上来了，client端会管理有多少个connect到其他server上了
+\end{DoxyItemize}
+
+\subsubsection*{bug\+\_\+list\+:}
+
+
+\begin{DoxyEnumerate}
+\item You cannot call uv\+\_\+write() or uv\+\_\+read\+\_\+start() from a different thread than the one that calls uv\+\_\+run().
+\item 某一边断开后，另一端会报段错 {\bfseries deal}
+\item valgrind 报错 Invalid write of size 8 位置\+Flow\+Message\+::\+Set\+Data {\bfseries deal} 发送数据的 uv\+\_\+write\+\_\+t没有动态分配空间导致回调函数中无法访问
+\item 为啥flow\+\_\+client.\+cc 创建一个\+Flow\+Message居然会导致uv\+\_\+write coredump {\bfseries deal} 应该是message内部的内存回收，没写好
+\item server 段有可能内存泄漏的地方，可能是ctrl+c 强行终止导致的，真的有必要为了优雅关闭花费那么多时间么，数据写回磁盘才是正道，毕竟程序结束内存都归还了。
+\item Exiting thread still holds 1 lock {\bfseries deal} 嵌套的lock导致的
+\item 为啥函数传值变成了传引用？ 尼玛，循环引用头文件发生了 \subsubsection*{the most beautiful images}
+\end{DoxyEnumerate}
+
+ 

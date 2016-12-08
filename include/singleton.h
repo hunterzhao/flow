@@ -6,13 +6,14 @@ template <typename T>
 class Singleton {
 public:
 	static T& Instance() {
-		static T t; //static local variable
+		static T t; //static local variable //construct and init happen here destruct when the program end
 		return t;
 	}
 
 protected: //the child object need this
 	Singleton() = default; 
 	~Singleton() {}
+	
 private:
 	
 	Singleton(const Singleton&);
