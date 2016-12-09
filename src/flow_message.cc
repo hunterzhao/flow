@@ -1,3 +1,4 @@
+#include <string>
 #include "flow_message.h"
 
 namespace flow {
@@ -37,7 +38,7 @@ void FlowMessage::Encode(const char* json) {
   }
 }
 
-const char* FlowMessage::Decode() {
+std::string FlowMessage::Decode() {
   rapidjson::StringBuffer decode;
   rapidjson::Writer<rapidjson::StringBuffer> writer(decode);
   document_.Accept(writer);

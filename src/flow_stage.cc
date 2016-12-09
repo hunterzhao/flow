@@ -26,6 +26,7 @@ void FlowStage::Run() {
 	if (ret < 0) {
 
 	}
+	return;
 }
 
 int FlowStage::OnEvent(FlowMessagePtr msg) {

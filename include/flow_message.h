@@ -23,7 +23,7 @@ public:
    
    void Encode(const char* json);
 
-   const char* Decode();
+   std::string Decode();
 
    void SetData(const char* data, size_t data_len);
 

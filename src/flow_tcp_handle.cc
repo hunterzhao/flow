@@ -1,3 +1,5 @@
+#include <string>
+
 #include "flow_tcp_handle.h"
 #include "flow_message.h"
 
@@ -79,10 +81,10 @@ int TcpHandle::SetSimultaneousAccepts(int enable) {
 }
 
 int TcpHandle::SendMessage(uv_stream_t* dest, FlowMessagePtr msg) {
-    const char* data = msg->Decode();
-    size_t datalen = strlen(data);
+    std::string data = msg->Decode();
+    size_t datalen = data.size() + 1;
     uv_buf_t buffer[] = {
-        {.base = (char*)data, .len = datalen}
+        {.base = (char*)data.c_str(), .len = datalen}
     };
     uv_write_t* request = (uv_write_t*)malloc(sizeof(uv_write_t));
     uv_write(request, dest, buffer, 1, write_cb);
