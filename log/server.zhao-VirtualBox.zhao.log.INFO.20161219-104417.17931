@@ -1,0 +1,4 @@
+Log file created at: 2016/12/19 10:44:17
+Running on machine: zhao-VirtualBox
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W1219 10:44:17.654314 17931 main.cc:82] memory leak

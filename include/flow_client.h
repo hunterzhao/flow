@@ -14,7 +14,7 @@ class TcpHandle;
 class FlowClient : public TcpHandle {
 public:
 	
-	static void on_connect(uv_connect_t* connection, int status);
+	static void connect_cb(uv_connect_t* connection, int status);
 
     void OnWrite(uv_write_t* req);
     
@@ -30,7 +30,7 @@ public:
     
     void Close(uv_stream_t* handle);
      
-    virtual void OnMessage(FlowMessagePtr msg);
+    virtual void OnMessage(FlowMessagePtr msg, uv_stream_t* tcp);
     virtual void OnConnected();//provide the interface for user code
     virtual void OnDisConnected();
 

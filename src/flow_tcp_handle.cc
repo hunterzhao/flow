@@ -119,6 +119,6 @@ void TcpHandle::OnWrite(uv_write_t* req) {
 }
 
 void TcpHandle::OnMessage(FlowMessagePtr msg, uv_stream_t* tcp) {
-    
+    printf("TcpHandle::OnMessage\n");
 }
 }

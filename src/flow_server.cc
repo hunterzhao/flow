@@ -7,13 +7,12 @@
 #include "flow_queue.h"
 #include "flow_message.h"
 #include "flow_session.h"
-
-
+#include "flow_log.h"  
 namespace flow {
 
 void FlowServer::on_connect(uv_stream_t* server, int status) {
   LoopPtr loop = ((FlowServer*)(server->data) )->GetLoop();
-  printf("accpet connect\n");
+  LOG->info("accpet connect");
   uv_stream_t* stream;
   
   if (status != 0) {

@@ -10,6 +10,7 @@ set(SOURCE_FILES
               flow_server.cc
               flow_client.cc
               flow_session.cc
+              flow_log.cc
               )
 
 if(TARGET flow_framework)

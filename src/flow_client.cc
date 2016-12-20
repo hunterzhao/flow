@@ -11,17 +11,14 @@ void FlowClient::OnWrite(uv_write_t* req) {
 	printf("wrote.\n");
 }
 
-void FlowClient::on_connect(uv_connect_t* connection, int status) {
+void FlowClient::connect_cb(uv_connect_t* connection, int status) {
 	printf("connected.\n");
 	uv_stream_t* stream = connection->handle;
 	FlowClient* client= ((FlowClient*)connection->data);
 	stream->data = client;
 	uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb); 
 	
-	const char* data = "hello world";
-	FlowMessagePtr msg(new FlowMessage());
-    msg->AddOption("data", data);
-	client->SendMessage(msg);
+	client->OnConnected();
 	//msg->FreeData();
 }
 
@@ -48,7 +45,7 @@ FlowClient::~FlowClient() {
 
 int FlowClient::Connect(const struct sockaddr_in* addr){
 	connect_->data = this;
-    return uv_tcp_connect(connect_, &tcpClient_,  (const struct sockaddr*)addr, on_connect);
+    return uv_tcp_connect(connect_, &tcpClient_,  (const struct sockaddr*)addr, connect_cb);
 }
 
 int FlowClient::SendMessage(const FlowMessagePtr msg) {
@@ -67,7 +64,7 @@ void FlowClient::Close(uv_stream_t* handle) {
     ASSERT(0 == uv_shutdown(sreq, handle, after_shutdown));
 }
 
-void FlowClient::OnMessage(FlowMessagePtr msg) {
+void FlowClient::OnMessage(FlowMessagePtr msg, uv_stream_t* tcp) {
     
 }
 

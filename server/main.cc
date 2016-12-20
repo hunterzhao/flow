@@ -9,7 +9,8 @@
 #include "flow_stage.h"
 #include "flow_actor.h"
 #include "flow_session.h"
-
+#include "flow.h"
+#include "flow_log.h"
 
 using namespace flow;
 
@@ -70,28 +71,27 @@ public:
 //   }
 // }
 int main(int args, char* argv[]) {
-  std::signal(SIGINT, handler);
-  LoopPtr loop (new Loop());
-  
-  FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(123);
-  TestStage stageA(p);
-  std::thread tha([&stageA]() {stageA.Run();});
-  tha.detach();
-  
-  //FlowActorPtr actor (new TestActor());
-  //stageA.addActor();
-  //server:
-  FlowServerPtr server (new FlowServer(loop));
-  //FlowManager::Instance().AddHandle(server);
+  FLOWLOG_TRY {
+    std::signal(SIGINT, handler);
+    LoopPtr loop (new Loop());
+    
+    FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(123);
+    TestStage stageA(p);
+    std::thread tha([&stageA]() {stageA.Run();});
+    tha.detach();
+    FlowLog::SetLevel(FlowLog::Trace);
+    LOG->info("server on...{}",1);
+    FlowServerPtr server (new FlowServer(loop));
+    //FlowManager::Instance().AddHandle(server);
 
-  struct sockaddr_in addr;
-  int port = 9123;
-  ASSERT(0 == uv_ip4_addr("0.0.0.0", port, &addr)); //set bind address
-  server->Bind(&addr, 0);
-  server->Listen(SOMAXCONN);
-  
-  loop->loop_run(Loop::RUN_DEFAULT);
-
+    struct sockaddr_in addr;
+    int port = 9123;
+    ASSERT(0 == uv_ip4_addr("0.0.0.0", port, &addr)); //set bind address
+    server->Bind(&addr, 0);
+    server->Listen(SOMAXCONN);
+    
+    loop->loop_run(Loop::RUN_DEFAULT);
+  } FLOWLOG_CATCH
   // delete loop;
   // delete server;
   return 0;
