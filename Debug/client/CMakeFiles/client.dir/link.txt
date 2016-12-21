@@ -1,0 +1,1 @@
+/usr/bin/c++    -pthread -g -std=c++11 -Wall -O0 -g    CMakeFiles/client.dir/main.cc.o  -o ../../bin/client  -L/mnt/shared/flow/lib -rdynamic ../../lib/libflow_framework.a -luv -Wl,-rpath,/mnt/shared/flow/lib 

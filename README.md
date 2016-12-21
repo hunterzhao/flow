@@ -24,6 +24,8 @@ this is a net framework used for asynchronous message communication
 
 - 2016.12.20 完成log封装
 
+- 2016.12.21 debug release 分离
+
 ### TODO...
 - 异步情况下，程序如何设计使用？
 - server端并不会管理有哪些客户连接上来了，client端会管理有多少个connect到其他server上了
@@ -41,6 +43,11 @@ this is a net framework used for asynchronous message communication
 9. 删除了flow_session.h里面的一个前置声明class uv_steam，换成头文件;发现居然就都不报错了（前置声明滥用），我等于在flow域中又声明了一个uv_stream
 10.以前没有注意到函数返回const char*问题，返回的指针指向的地址空间被归还，跑起来没有错误的原因是很幸运还这块地址空间还没有被overwitten，所以需要通过拷贝的方式才能解决这个问题
 11. 注意，如果已经生成了so库，那么头文件的防止重复引用的宏就失效了，之后再次引用该头文件就会报重复定义的错误，如果你头文件里面有定义行为的话
+内部链接 外部链接的区别 [参考](http://blog.csdn.net/ithzhang/article/details/8119286) 
 ### the most beautiful images
-
+12. 
+`mkdir Release
+cd Release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make`
 ![0 error memory](https://github.com/hunterzhao/flow/blob/master/images/happy1.png)

@@ -35,6 +35,7 @@ private:
         //fow_log = spdlog::daily_logger_mt("app", "../log", 0, 0);
     }
 };
+
 } // end of namespace
 #define LOG flow::FlowLog::fow_log
 #define FLOWLOG_TRY try
