@@ -6,17 +6,22 @@ this is a net framework used for asynchronous message communication
 2. git clone this project
 
 > debug way
-3. cd Debug && cmake -DCMAKE_BUILD_TYPE=Debug .. && make
+
+cd Debug && cmake -DCMAKE_BUILD_TYPE=Debug .. && make
+
 > release way
-3. cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
+
+cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 
 ### run
 - cd bin
 > debug way
+
 - ./server    run serverd
 - ./client    run clientd
 
 > Release way
+
 - ./server    run server
 - ./client    run client
 
@@ -56,11 +61,7 @@ this is a net framework used for asynchronous message communication
 11. 注意，如果已经生成了so库，那么头文件的防止重复引用的宏就失效了，之后再次引用该头文件就会报重复定义的错误，如果你头文件里面有定义行为的话
 内部链接 外部链接的区别 [参考](http://blog.csdn.net/ithzhang/article/details/8119286) 
 ### the most beautiful images
-12. 
-`mkdir Release
-cd Release
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make`
+
 
 ### beautiful images
 ![0 error memory](https://github.com/hunterzhao/flow/blob/master/images/happy1.png)
