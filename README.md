@@ -4,10 +4,19 @@ this is a net framework used for asynchronous message communication
 ### install
 1. install libuv in ordinary directory
 2. git clone this project
-3. cd build && cmake .. && make
+
+> debug way
+3. cd Debug && cmake -DCMAKE_BUILD_TYPE=Debug .. && make
+> release way
+3. cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 
 ### run
 - cd bin
+> debug way
+- ./server    run serverd
+- ./client    run clientd
+
+> Release way
 - ./server    run server
 - ./client    run client
 
@@ -52,4 +61,6 @@ this is a net framework used for asynchronous message communication
 cd Release
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make`
+
+### beautiful images
 ![0 error memory](https://github.com/hunterzhao/flow/blob/master/images/happy1.png)
