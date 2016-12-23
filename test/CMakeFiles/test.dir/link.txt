@@ -1,0 +1,1 @@
+/usr/bin/c++    -Wextra -pthread -std=c++11 -Wall -O0    CMakeFiles/test.dir/test.cc.o  -o test  -L../lib -rdynamic -lgtest_main -lflow_framework -luv -Wl,-rpath,../lib 

@@ -10,9 +10,9 @@ class FlowActor {
 public:
 	FlowActor(int id);
 	virtual ~FlowActor();
-	virtual int OnStart();
-	virtual int OnEvent(Event& e);
-	virtual int OnStop();
+	// virtual int OnStart();
+	// virtual int OnEvent(Event& e);
+	// virtual int OnStop();
     
     void Subscribe(std::string conn_id, std::string topic);
     void Request(std::string conn_id, std::string topic, std::string data);

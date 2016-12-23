@@ -26,6 +26,8 @@ this is a net framework used for asynchronous message communication
 
 - 2016.12.21 debug release 分离
 
+- 单元测试，如何写出测试驱动的代码 [参考](https://www.toptal.com/qa/how-to-write-testable-code-and-why-it-matters)
+  这篇文字确实不错，但是重构的代价太大了。懒得改了。。。
 ### TODO...
 - 异步情况下，程序如何设计使用？
 - server端并不会管理有哪些客户连接上来了，client端会管理有多少个connect到其他server上了
