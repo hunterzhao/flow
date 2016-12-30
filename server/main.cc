@@ -1,7 +1,7 @@
 #include <thread>
 #include <iostream>
 #include <csignal>
-
+#include <memory>
 #include <uv.h>
 
 #include "flow_server.h"
@@ -11,85 +11,114 @@
 #include "flow_session.h"
 #include "flow.h"
 #include "flow_log.h"
+#include "flow_manager.h"
+#include "flow_publisher.h"
 
 using namespace flow;
 
 int stop = 0;
 void handler(int sigcode) {
-   std::cout << "interrupt" << sigcode << "received" << std::endl;
+   LOG->warn("interrupt {} received",sigcode);
    stop=1;
    exit(sigcode);
    //exit(sigcode);
 }
 
+class TestActor : public FlowActor {
+public:
+  TestActor(std::string id) : FlowActor(id) {}
+  ~TestActor() {}
+  int OnStart() {
+     LOG->trace("TestActor start");
+  }
+
+  int OnEvent(Event e) {
+     LOG->trace("TestActor onEvent");
+     LOG->info("receive data : {}",e.msg);
+     Publish("topic", "hello this is topic"); //subscribe "a" topic from x1
+     LOG->info("TestActor published");
+  }
+
+  int OnStop() {
+    LOG->trace("TestActor stop");
+  }
+};
+
 class TestStage : public FlowStage {
 public:
-    TestStage(FlowQueuePtr q): FlowStage(q){
+    TestStage(FlowQueuePtr q, int id): FlowStage(q, id) {
+       //add actor
+       FlowActorPtr actor1(new TestActor("happy"));
+       AddActor(actor1);
     }
 
     ~TestStage() {}
     
+    int OnStart() override {
+       //iterator execute the actor start
+       FlowStage::OnStart();
+       return 1;
+    }
+    
     int OnEvent(FlowMessagePtr msg) {
-       std::cout << msg->GetOptionStr("data") << std::endl;
+       //LOG->info("{}",msg->GetOptionStr("data"));
        session_t session_id = msg->GetOptionInt("session_id");
        //session_t session_id = 1;
-       SessionMgr::Instance().SendMessage(session_id, msg);
-       //msg.FreeData();
-       // int receiver = msg->GetReceiver();
-       // Event e;
-       // e.data = msg->GetData();
-       // e.sender = msg->GetSender();
-       // e.topic = msg->GetTopic();
-       // e.session_id = session_id;
-       // auto it = actorMap_.find(receiver);
-       // if (it != actorMap)
-       //    it->second->OnEvent(e);
-       //  else
-       //    std::cout << "the receiver doesn't exist" << std::endl;
+       std::string receiver = msg->GetOptionStr("receiver");
+       Event e;
+       e.msg = msg->GetOptionStr("data");
+       e.topic = msg->GetOptionStr("topic");
 
+       auto recv = GetActor(receiver);
+       if (recv != nullptr)
+          recv->OnEvent(e);
+       else
+          LOG->error("the receiver {} doesn't exist", receiver); 
+       return 1;
+    }
+
+    int OnStop(FlowMessagePtr msg) {
+       //iterator execute the actor end
+       FlowStage::OnStop();
        return 1;
     }
 
 };
 
-// class TestActor : public FlowActor {
-// public:
-//   TestActor(int id) : FlowActor(id) {}
-//   ~TestActor() {}
-//   int onStart() {
-//      subscribe("x1","a"); //subscribe "a" topic from x1
-//   }
-
-//   int OnEvent(Event e) {
-//      std::cout << "sender" << e.sender << std::endl;
-//      std::cout << "data:" << e.data << std::endl;
-//      SessionMgr::Instance().SendMessage(e.session_id);
-//   }
-
-//   int OnStop() {
-
-//   }
-// }
 int main(int args, char* argv[]) {
   FLOWLOG_TRY {
     std::signal(SIGINT, handler);
     LoopPtr loop (new Loop());
+    FlowManagerPtr manager(new FlowManager);
     
-    FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(123);
-    TestStage stageA(p);
-    std::thread tha([&stageA]() {stageA.Run();});
+    int stageid = 0;
+    FlowQueuePtr p1 = FlowQueueMgr::Instance().CreateQueue(stageid);
+    FlowPublisherPtr publisher(new FlowPublisher(p1, stageid));
+    manager->SetPublisher(publisher);
+    std::thread tha([&publisher]() {publisher->Run();});
     tha.detach();
-    FlowLog::SetLevel(FlowLog::Trace);
-    LOG->info("server on...{}",1);
-    FlowServerPtr server (new FlowServer(loop));
-    //FlowManager::Instance().AddHandle(server);
+    publisher->SetManager(manager);
+    manager->AddStage(stageid, publisher);
+    
+    stageid = 123;
+    FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(stageid);
+    FlowStagePtr stageA(new TestStage(p, stageid));
+    std::thread tha2([&stageA]() {stageA->Run();});
+    tha2.detach();
+    stageA->SetManager(manager);
+    manager->AddStage(stageid, stageA);
 
+    FlowLog::SetLevel(FlowLog::Trace);
+    
+    FlowServerPtr server(new FlowServer(loop, manager));
+    //FlowManager::Instance().AddHandle(server);
+    
     struct sockaddr_in addr;
     int port = 9123;
     ASSERT(0 == uv_ip4_addr("0.0.0.0", port, &addr)); //set bind address
     server->Bind(&addr, 0);
     server->Listen(SOMAXCONN);
-    
+    LOG->info("server on.");
     loop->loop_run(Loop::RUN_DEFAULT);
   } FLOWLOG_CATCH
   // delete loop;

@@ -690,6 +690,18 @@ flow.h
 event.h
 ../include/event.h
 
+../include/flow_client.h
+uv.h
+-
+flow.h
+../include/flow.h
+flow_tcp_handle.h
+../include/flow_tcp_handle.h
+flow_loop.h
+../include/flow_loop.h
+flow_message.h
+../include/flow_message.h
+
 ../include/flow_log.h
 iostream
 -
@@ -700,6 +712,14 @@ singleton.h
 
 ../include/flow_loop.h
 uv.h
+-
+flow.h
+../include/flow.h
+
+../include/flow_manager.h
+unordered_map
+-
+string
 -
 flow.h
 ../include/flow.h
@@ -717,6 +737,18 @@ rapidjson/stringbuffer.h
 ../include/rapidjson/stringbuffer.h
 flow.h
 ../include/flow.h
+
+../include/flow_publisher.h
+unordered_map
+-
+string
+-
+vector
+-
+flow_session.h
+../include/flow_session.h
+flow_stage.h
+../include/flow_stage.h
 
 ../include/flow_queue.h
 unordered_map
@@ -779,6 +811,28 @@ queue
 /mnt/shared/flow/src/flow_actor.cc
 flow_actor.h
 /mnt/shared/flow/src/flow_actor.h
+flow_stage.h
+/mnt/shared/flow/src/flow_stage.h
+flow_message.h
+/mnt/shared/flow/src/flow_message.h
+
+/mnt/shared/flow/src/flow_manager.cc
+memory
+-
+flow_manager.h
+/mnt/shared/flow/src/flow_manager.h
+flow_client.h
+/mnt/shared/flow/src/flow_client.h
+flow_publisher.h
+/mnt/shared/flow/src/flow_publisher.h
+flow_log.h
+/mnt/shared/flow/src/flow_log.h
+
+/mnt/shared/flow/src/flow_publisher.cc
+flow_publisher.h
+/mnt/shared/flow/src/flow_publisher.h
+flow_log.h
+/mnt/shared/flow/src/flow_log.h
 
 /mnt/shared/flow/src/flow_server.cc
 stdio.h
@@ -797,16 +851,22 @@ flow_session.h
 /mnt/shared/flow/src/flow_session.h
 flow_log.h
 /mnt/shared/flow/src/flow_log.h
-
-/mnt/shared/flow/src/flow_session.cc
-flow_session.h
-/mnt/shared/flow/src/flow_session.h
-flow_message.h
-/mnt/shared/flow/src/flow_message.h
-flow_tcp_handle.h
-/mnt/shared/flow/src/flow_tcp_handle.h
+flow_publisher.h
+/mnt/shared/flow/src/flow_publisher.h
+flow_manager.h
+/mnt/shared/flow/src/flow_manager.h
 
 /mnt/shared/flow/src/flow_stage.cc
 flow_stage.h
 /mnt/shared/flow/src/flow_stage.h
+flow_actor.h
+/mnt/shared/flow/src/flow_actor.h
+flow_log.h
+/mnt/shared/flow/src/flow_log.h
+flow_manager.h
+/mnt/shared/flow/src/flow_manager.h
+flow_publisher.h
+/mnt/shared/flow/src/flow_publisher.h
+flow_client.h
+/mnt/shared/flow/src/flow_client.h
 

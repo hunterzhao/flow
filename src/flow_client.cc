@@ -4,15 +4,16 @@
 #include "flow_client.h"
 #include "flow_tcp_handle.h"
 #include "flow_message.h"
-
+#include "flow_log.h"
+#include "flow_manager.h"
 namespace flow {
 
 void FlowClient::OnWrite(uv_write_t* req) {
-	printf("wrote.\n");
+	LOG->info("wrote.");
 }
 
 void FlowClient::connect_cb(uv_connect_t* connection, int status) {
-	printf("connected.\n");
+	LOG->info("connected.");
 	uv_stream_t* stream = connection->handle;
 	FlowClient* client= ((FlowClient*)connection->data);
 	stream->data = client;
@@ -22,12 +23,12 @@ void FlowClient::connect_cb(uv_connect_t* connection, int status) {
 	//msg->FreeData();
 }
 
-FlowClient::FlowClient(LoopPtr loop): loop_(loop) {
+FlowClient::FlowClient(LoopPtr loop, FlowManagerPtr manager): loop_(loop), manager_(manager) {
 	int r = uv_tcp_init(loop_->self(), &tcpClient_);
 	client_closed_ = 0;
 	if (r) {
 	    /* TODO: Error codes */
-	    fprintf(stderr, "Socket creation error\n");
+	    LOG->error("Socket creation error");
 	}
 	connect_ = (uv_connect_t*)malloc(sizeof(uv_connect_t));
 }
@@ -36,10 +37,10 @@ FlowClient::~FlowClient() {
     if (connect_ != nullptr) {
         free(connect_);
         connect_ = nullptr;
-        std::cout << "socket free in destructor." <<std::endl;
+        LOG->warn("socket free in destructor.");
     }
     else {
-    	std::cout << "socket already free." <<std::endl;
+    	LOG->warn("socket already free.");
     }
 }
 

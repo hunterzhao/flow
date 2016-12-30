@@ -26,11 +26,41 @@ client/CMakeFiles/clientd.dir/main.cc.o
  ../deps/rapidjson/stream.h
  ../deps/rapidjson/stringbuffer.h
  ../deps/rapidjson/writer.h
+ ../deps/spdlog/async_logger.h
+ ../deps/spdlog/common.h
+ ../deps/spdlog/details/async_log_helper.h
+ ../deps/spdlog/details/async_logger_impl.h
+ ../deps/spdlog/details/file_helper.h
+ ../deps/spdlog/details/log_msg.h
+ ../deps/spdlog/details/logger_impl.h
+ ../deps/spdlog/details/mpmc_bounded_q.h
+ ../deps/spdlog/details/null_mutex.h
+ ../deps/spdlog/details/os.h
+ ../deps/spdlog/details/pattern_formatter_impl.h
+ ../deps/spdlog/details/registry.h
+ ../deps/spdlog/details/spdlog_impl.h
+ ../deps/spdlog/fmt/bundled/format.cc
+ ../deps/spdlog/fmt/bundled/format.h
+ ../deps/spdlog/fmt/fmt.h
+ ../deps/spdlog/formatter.h
+ ../deps/spdlog/logger.h
+ ../deps/spdlog/sinks/android_sink.h
+ ../deps/spdlog/sinks/ansicolor_sink.h
+ ../deps/spdlog/sinks/base_sink.h
+ ../deps/spdlog/sinks/file_sinks.h
+ ../deps/spdlog/sinks/sink.h
+ ../deps/spdlog/sinks/stdout_sinks.h
+ ../deps/spdlog/sinks/syslog_sink.h
+ ../deps/spdlog/sinks/wincolor_sink.h
+ ../deps/spdlog/spdlog.h
+ ../deps/spdlog/tweakme.h
  ../include/event.h
  ../include/flow.h
  ../include/flow_actor.h
  ../include/flow_client.h
+ ../include/flow_log.h
  ../include/flow_loop.h
+ ../include/flow_manager.h
  ../include/flow_message.h
  ../include/flow_queue.h
  ../include/flow_stage.h

@@ -279,6 +279,52 @@ src/CMakeFiles/flow_framework.dir/flow_log.cc.o.provides: src/CMakeFiles/flow_fr
 
 src/CMakeFiles/flow_framework.dir/flow_log.cc.o.provides.build: src/CMakeFiles/flow_framework.dir/flow_log.cc.o
 
+src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o: src/CMakeFiles/flow_framework.dir/flags.make
+src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o: ../src/flow_publisher.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /mnt/shared/flow/Debug/CMakeFiles $(CMAKE_PROGRESS_11)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o"
+	cd /mnt/shared/flow/Debug/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/flow_framework.dir/flow_publisher.cc.o -c /mnt/shared/flow/src/flow_publisher.cc
+
+src/CMakeFiles/flow_framework.dir/flow_publisher.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/flow_framework.dir/flow_publisher.cc.i"
+	cd /mnt/shared/flow/Debug/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /mnt/shared/flow/src/flow_publisher.cc > CMakeFiles/flow_framework.dir/flow_publisher.cc.i
+
+src/CMakeFiles/flow_framework.dir/flow_publisher.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/flow_framework.dir/flow_publisher.cc.s"
+	cd /mnt/shared/flow/Debug/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /mnt/shared/flow/src/flow_publisher.cc -o CMakeFiles/flow_framework.dir/flow_publisher.cc.s
+
+src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.requires:
+.PHONY : src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.requires
+
+src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.provides: src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.provides.build
+.PHONY : src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.provides
+
+src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.provides.build: src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o
+
+src/CMakeFiles/flow_framework.dir/flow_manager.cc.o: src/CMakeFiles/flow_framework.dir/flags.make
+src/CMakeFiles/flow_framework.dir/flow_manager.cc.o: ../src/flow_manager.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /mnt/shared/flow/Debug/CMakeFiles $(CMAKE_PROGRESS_12)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/flow_framework.dir/flow_manager.cc.o"
+	cd /mnt/shared/flow/Debug/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/flow_framework.dir/flow_manager.cc.o -c /mnt/shared/flow/src/flow_manager.cc
+
+src/CMakeFiles/flow_framework.dir/flow_manager.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/flow_framework.dir/flow_manager.cc.i"
+	cd /mnt/shared/flow/Debug/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /mnt/shared/flow/src/flow_manager.cc > CMakeFiles/flow_framework.dir/flow_manager.cc.i
+
+src/CMakeFiles/flow_framework.dir/flow_manager.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/flow_framework.dir/flow_manager.cc.s"
+	cd /mnt/shared/flow/Debug/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /mnt/shared/flow/src/flow_manager.cc -o CMakeFiles/flow_framework.dir/flow_manager.cc.s
+
+src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.requires:
+.PHONY : src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.requires
+
+src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.provides: src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.provides.build
+.PHONY : src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.provides
+
+src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.provides.build: src/CMakeFiles/flow_framework.dir/flow_manager.cc.o
+
 # Object files for target flow_framework
 flow_framework_OBJECTS = \
 "CMakeFiles/flow_framework.dir/flow_loop.cc.o" \
@@ -290,7 +336,9 @@ flow_framework_OBJECTS = \
 "CMakeFiles/flow_framework.dir/flow_server.cc.o" \
 "CMakeFiles/flow_framework.dir/flow_client.cc.o" \
 "CMakeFiles/flow_framework.dir/flow_session.cc.o" \
-"CMakeFiles/flow_framework.dir/flow_log.cc.o"
+"CMakeFiles/flow_framework.dir/flow_log.cc.o" \
+"CMakeFiles/flow_framework.dir/flow_publisher.cc.o" \
+"CMakeFiles/flow_framework.dir/flow_manager.cc.o"
 
 # External object files for target flow_framework
 flow_framework_EXTERNAL_OBJECTS =
@@ -305,6 +353,8 @@ flow_framework_EXTERNAL_OBJECTS =
 ../lib/libflow_framework.a: src/CMakeFiles/flow_framework.dir/flow_client.cc.o
 ../lib/libflow_framework.a: src/CMakeFiles/flow_framework.dir/flow_session.cc.o
 ../lib/libflow_framework.a: src/CMakeFiles/flow_framework.dir/flow_log.cc.o
+../lib/libflow_framework.a: src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o
+../lib/libflow_framework.a: src/CMakeFiles/flow_framework.dir/flow_manager.cc.o
 ../lib/libflow_framework.a: src/CMakeFiles/flow_framework.dir/build.make
 ../lib/libflow_framework.a: src/CMakeFiles/flow_framework.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX static library ../../lib/libflow_framework.a"
@@ -325,6 +375,8 @@ src/CMakeFiles/flow_framework.dir/requires: src/CMakeFiles/flow_framework.dir/fl
 src/CMakeFiles/flow_framework.dir/requires: src/CMakeFiles/flow_framework.dir/flow_client.cc.o.requires
 src/CMakeFiles/flow_framework.dir/requires: src/CMakeFiles/flow_framework.dir/flow_session.cc.o.requires
 src/CMakeFiles/flow_framework.dir/requires: src/CMakeFiles/flow_framework.dir/flow_log.cc.o.requires
+src/CMakeFiles/flow_framework.dir/requires: src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o.requires
+src/CMakeFiles/flow_framework.dir/requires: src/CMakeFiles/flow_framework.dir/flow_manager.cc.o.requires
 .PHONY : src/CMakeFiles/flow_framework.dir/requires
 
 src/CMakeFiles/flow_framework.dir/clean:

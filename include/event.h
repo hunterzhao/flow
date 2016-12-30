@@ -9,7 +9,9 @@ public:
 	Event() {};
 	~Event() {};
 public:
-    std::string data;
+    std::string msg;
+    std::string topic;
+    
     int sender;
 };
 #endif //FLOW_FRAMEWORK_EVENT_H

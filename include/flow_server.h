@@ -9,13 +9,15 @@
 
 namespace flow {
 class FlowMessage;
+class FlowManager;
 DEFINE_SHARED_PTR(FlowMessage);
+DEFINE_SHARED_PTR(FlowManager);
 class FlowServer : public TcpHandle {
 public:
 	//static void after_write(uv_write_t* req, int status);
 	static void on_connect(uv_stream_t* server, int status);
 
-	FlowServer(LoopPtr loop);
+	FlowServer(LoopPtr loop, FlowManagerPtr manager);
 
 	virtual ~FlowServer();
 
@@ -31,8 +33,10 @@ public:
 private:
     uv_tcp_t tcpServer_;
     LoopPtr loop_;
-
     int server_closed_;
+    
+protected:        
+    FlowManagerPtr manager_;   
 };
 DEFINE_SHARED_PTR(FlowServer);
 }

@@ -7,9 +7,13 @@
 
 namespace flow {
 
+class FlowActor;
+class FlowManager;
+DEFINE_SHARED_PTR(FlowActor);
+DEFINE_SHARED_PTR(FlowManager);
 class FlowStage {
 public:
-	FlowStage(FlowQueuePtr queue);
+	FlowStage(FlowQueuePtr queue, int id);
 	virtual ~FlowStage();
 	virtual void Run(); // for thread
     virtual int OnEvent(FlowMessagePtr msg);
@@ -17,12 +21,26 @@ public:
     virtual int OnStop();
     
     int AddActor(FlowActorPtr actor);
-    int RemoveActor(int actorid);
+    int RemoveActor(std::string actorid);
+    FlowActorPtr GetActor(std::string);
+    
+    FlowManagerPtr GetManager();
+    int SetManager(FlowManagerPtr);
 
+    int Getid();
+
+    int Publish(FlowMessagePtr msg);
+    int Request(std::string conn_id, FlowMessagePtr msg);
+    int Subscribe(std::string conn_id, FlowMessagePtr msg);
+
+    
 private:
 	int stageid_;
+	FlowManagerPtr manager_;
 	FlowQueuePtr queue_;
-	std::unordered_map<int, FlowActorPtr> actorMap_;
+
+protected:
+	std::unordered_map<std::string, FlowActorPtr> actorMap_;
 };
 DEFINE_SHARED_PTR(FlowStage);
 } // end of namespace flow

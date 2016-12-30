@@ -21,15 +21,13 @@ int FlowMessage::GetOptionInt(const char* key) {
 }
 
 void FlowMessage::AddOption(const char* key, const char* val) { 
-  // rapidjson::Value option;
-  // char buffer[10];
-  // int len = sprintf(buffer, "%s", key); 
-  // option.SetString(val, static_cast<rapidjson::SizeType>(len), document_.GetAllocator());
-  document_.AddMember(rapidjson::Value(key, document_.GetAllocator()), rapidjson::Value(val, document_.GetAllocator()), document_.GetAllocator());
+  document_.AddMember(rapidjson::Value(key, document_.GetAllocator()), 
+    rapidjson::Value(val, document_.GetAllocator()), document_.GetAllocator());
 }
 
 void FlowMessage::AddOption(const char* key, int val) { 
-  document_.AddMember(rapidjson::Value(key, document_.GetAllocator()), rapidjson::Value(val), document_.GetAllocator());
+  document_.AddMember(rapidjson::Value(key, document_.GetAllocator()), 
+    rapidjson::Value(val), document_.GetAllocator());
 }
 
 void FlowMessage::Encode(const char* json) {

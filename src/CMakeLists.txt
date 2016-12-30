@@ -11,6 +11,8 @@ set(SOURCE_FILES
               flow_client.cc
               flow_session.cc
               flow_log.cc
+              flow_publisher.cc
+              flow_manager.cc
               )
 
 if(TARGET flow_framework)

@@ -11,6 +11,11 @@
 namespace flow {
 class FlowMessage {
 public:
+   enum {
+      Subscribe,
+      Publish,
+      Request
+   };
    FlowMessage();
 
    ~FlowMessage();

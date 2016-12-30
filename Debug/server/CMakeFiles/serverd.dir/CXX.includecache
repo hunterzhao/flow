@@ -704,6 +704,14 @@ uv.h
 flow.h
 ../include/flow.h
 
+../include/flow_manager.h
+unordered_map
+-
+string
+-
+flow.h
+../include/flow.h
+
 ../include/flow_message.h
 string.h
 -
@@ -717,6 +725,18 @@ rapidjson/stringbuffer.h
 ../include/rapidjson/stringbuffer.h
 flow.h
 ../include/flow.h
+
+../include/flow_publisher.h
+unordered_map
+-
+string
+-
+vector
+-
+flow_session.h
+../include/flow_session.h
+flow_stage.h
+../include/flow_stage.h
 
 ../include/flow_queue.h
 unordered_map
@@ -783,6 +803,8 @@ iostream
 -
 csignal
 -
+memory
+-
 uv.h
 -
 flow_server.h
@@ -799,4 +821,8 @@ flow.h
 /mnt/shared/flow/server/flow.h
 flow_log.h
 /mnt/shared/flow/server/flow_log.h
+flow_manager.h
+/mnt/shared/flow/server/flow_manager.h
+flow_publisher.h
+/mnt/shared/flow/server/flow_publisher.h
 

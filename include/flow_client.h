@@ -10,7 +10,8 @@
 namespace flow {
 
 class TcpHandle;
-
+class FlowManager;
+DEFINE_SHARED_PTR(FlowManager);
 class FlowClient : public TcpHandle {
 public:
 	
@@ -18,7 +19,7 @@ public:
 
     void OnWrite(uv_write_t* req);
     
-    FlowClient(LoopPtr loop);
+    FlowClient(LoopPtr loop, FlowManagerPtr manager);
     
     virtual ~FlowClient();
     
@@ -29,7 +30,7 @@ public:
     int SendData(const char* data, size_t datalen);
     
     void Close(uv_stream_t* handle);
-     
+    
     virtual void OnMessage(FlowMessagePtr msg, uv_stream_t* tcp);
     virtual void OnConnected();//provide the interface for user code
     virtual void OnDisConnected();
@@ -37,9 +38,11 @@ public:
 private:
 	uv_tcp_t tcpClient_; 
 	uv_connect_t* connect_; 
-    LoopPtr loop_;         
-
+    LoopPtr loop_;
     int client_closed_;
+
+protected:        
+    FlowManagerPtr manager_;    
 };
 DEFINE_SHARED_PTR(FlowClient);
 }// namespace flow

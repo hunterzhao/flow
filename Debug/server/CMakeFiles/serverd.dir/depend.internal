@@ -59,7 +59,9 @@ server/CMakeFiles/serverd.dir/main.cc.o
  ../include/flow_actor.h
  ../include/flow_log.h
  ../include/flow_loop.h
+ ../include/flow_manager.h
  ../include/flow_message.h
+ ../include/flow_publisher.h
  ../include/flow_queue.h
  ../include/flow_server.h
  ../include/flow_session.h

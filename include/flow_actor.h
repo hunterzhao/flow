@@ -6,19 +6,27 @@
 #include "event.h"
 
 namespace flow {
+
+class FlowStage;
 class FlowActor {
 public:
-	FlowActor(int id);
+	FlowActor(std::string id);
 	virtual ~FlowActor();
-	// virtual int OnStart();
-	// virtual int OnEvent(Event& e);
-	// virtual int OnStop();
+	virtual int OnStart() {};
+	virtual int OnEvent(Event e) {};
+	virtual int OnStop() {};
     
     void Subscribe(std::string conn_id, std::string topic);
-    void Request(std::string conn_id, std::string topic, std::string data);
+    void Publish(std::string topic, std::string data);
+    void Request(std::string conn_id, std::string receiver, std::string topic, std::string data);
+    
+    void SetStage(FlowStage* stage);
+    FlowStage* GetStage();
 
-private:
-    int id_;
+    std::string Getid();
+protected:
+    FlowStage* stage_;
+    std::string id_;
 };// end of FlowActor
 DEFINE_SHARED_PTR(FlowActor);
 }

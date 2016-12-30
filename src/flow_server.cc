@@ -8,6 +8,9 @@
 #include "flow_message.h"
 #include "flow_session.h"
 #include "flow_log.h"  
+#include "flow_publisher.h"
+#include "flow_manager.h"
+
 namespace flow {
 
 void FlowServer::on_connect(uv_stream_t* server, int status) {
@@ -16,7 +19,7 @@ void FlowServer::on_connect(uv_stream_t* server, int status) {
   uv_stream_t* stream;
   
   if (status != 0) {
-    fprintf(stderr, "Connect error %s\n", uv_err_name(status));
+    LOG->error("Connect error {}",uv_err_name(status));
   }
   ASSERT(status == 0) ;
 
@@ -33,15 +36,15 @@ void FlowServer::on_connect(uv_stream_t* server, int status) {
   stream->data = (FlowServer*)(server->data);
   r = uv_read_start(stream, TcpHandle::alloc_cb, TcpHandle::read_cb);
   ASSERT(r == 0);
-  printf("wait for data\n");
+  LOG->info("wait for data");
 }
 
-FlowServer::FlowServer(LoopPtr loop) : loop_(loop) {
+FlowServer::FlowServer(LoopPtr loop, FlowManagerPtr manager): loop_(loop), manager_(manager) {
   int r = uv_tcp_init(loop_->self(), &tcpServer_);
   server_closed_ = 0;
   if (r) {
     /* TODO: Error codes */
-    fprintf(stderr, "Socket creation error\n");
+    LOG->error("Socket creation error");
   }
 }
 
@@ -53,7 +56,7 @@ int FlowServer::Bind(const struct sockaddr_in* addr, unsigned int flags) {
    int r = uv_tcp_bind(&tcpServer_, (const struct sockaddr*) addr, flags);
    if (r) {
 	    /* TODO: Error codes */
-	    fprintf(stderr, "Bind error\n");
+      LOG->error("Bind error");
 	    return 1;
    }
    return r;
@@ -64,7 +67,7 @@ int FlowServer::Listen(int blacklog) {
    int r = uv_listen((uv_stream_t*)&tcpServer_, blacklog, on_connect);
    if (r) {
      /* TODO: Error codes */
-     fprintf(stderr, "Listen error %s\n", uv_err_name(r));
+     LOG->error("Listen error {}",uv_err_name(r));
      return 1;
    }
    return r;
@@ -75,16 +78,36 @@ void FlowServer::Close(uv_stream_t* handle) {
    uv_shutdown_t* sreq;
    sreq = (uv_shutdown_t*)malloc(sizeof* sreq);
    ASSERT(0 == uv_shutdown(sreq, handle, TcpHandle::after_shutdown));
-   printf("close.\n");
+   LOG->info("close.");
 }
 
 void FlowServer::OnMessage(FlowMessagePtr msg, uv_stream_t* tcp) {
-  //send to target stage
-  // stage_id  msg
-  
+  int type = msg->GetOptionInt("type");
   session_t session_id = SessionMgr::Instance().GetSessionID(tcp);
-  msg->AddOption("session_id", session_id);  //add communication message
-  FlowQueueMgr::Instance().SendMessage(123, msg);
+  
+  switch(type) {
+    case FlowMessage::Subscribe: {
+          std::string sender = msg->GetOptionStr("sender");
+          FlowPublisherPtr publisher = manager_->GetPublisher();
+          publisher->AddSubsribe(msg->GetOptionStr("data"), sender, session_id); //topic store in data
+          break;
+        }
+    case FlowMessage::Publish: {
+          std::string receiver = msg->GetOptionStr("receiver");
+          int stageid = manager_->actor2stage(receiver);   
+          msg->AddOption("session_id", session_id);  //add communication message
+          FlowQueueMgr::Instance().SendMessage(stageid, msg);
+          break;
+        }
+    case FlowMessage::Request: {
+          std::string receiver = msg->GetOptionStr("receiver");
+          int stageid = manager_->actor2stage(receiver);   
+          msg->AddOption("session_id", session_id);  //add communication message
+          FlowQueueMgr::Instance().SendMessage(stageid, msg);
+          break;
+        }
+  }
+ 
 }
 
 LoopPtr FlowServer::GetLoop() {

@@ -9,6 +9,8 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/flow_framework_so.dir/flow_client.cc.o"
   "CMakeFiles/flow_framework_so.dir/flow_session.cc.o"
   "CMakeFiles/flow_framework_so.dir/flow_log.cc.o"
+  "CMakeFiles/flow_framework_so.dir/flow_publisher.cc.o"
+  "CMakeFiles/flow_framework_so.dir/flow_manager.cc.o"
   "../../lib/libflow_framework.pdb"
   "../../lib/libflow_framework.so"
 )

@@ -2,16 +2,17 @@
 
 #include "flow_tcp_handle.h"
 #include "flow_message.h"
+#include "flow_log.h"  
 
 namespace flow {
 
 void TcpHandle::read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
     TcpHandle* handle = (TcpHandle*)(tcp->data);
-    printf("data coming\n");
+    LOG->info("data coming");
     if (nread < 0) {
 	    /* Error or EOF */
 	    ASSERT(nread == UV_EOF);
-        printf("end of file \n");
+        LOG->info("end of file");
 	    free(buf->base);
 	    uv_shutdown_t* sreq = (uv_shutdown_t*)malloc(sizeof(uv_shutdown_t));
 	    ASSERT(0 == uv_shutdown(sreq, tcp, after_shutdown));
@@ -21,7 +22,7 @@ void TcpHandle::read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
 
     if (nread == 0) {
 	    /* Everything OK, but nothing read. */
-        printf("nothing read \n");
+        LOG->info("nothing read");
 	    free(buf->base);
 	    return;
     }
@@ -30,7 +31,7 @@ void TcpHandle::read_cb(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
 }
 
 void TcpHandle::write_cb(uv_write_t* req, int status) {
-    printf("wrote.\n");
+    LOG->info("wrote.");
     free(req);
     req = nullptr;
     //char* msgdata = (char*)(req->data);
@@ -42,7 +43,7 @@ void TcpHandle::close_cb(uv_handle_t* handle) {
     //     free(handle);
     //     handle = nullptr;
     // }
-    printf("closed.\n");
+    LOG->info("wrote.");
 }
 
 void TcpHandle::alloc_cb(uv_handle_t* handle, size_t suggested_size,
@@ -104,7 +105,7 @@ void TcpHandle::OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
     /*
     * receive data and decode
     */
-    printf("data is %s \n", buf->base);
+    LOG->info("data is {}",buf->base);
     //lock?
     FlowMessagePtr msg(new FlowMessage());
     msg->Encode(buf->base); //encode the json string
@@ -115,10 +116,10 @@ void TcpHandle::OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t* buf) {
 
 void TcpHandle::OnWrite(uv_write_t* req) {
 	/**/
-	printf("TcpHandle::OnWrite\n");
+    LOG->info("TcpHandle::OnWrite");
 }
 
 void TcpHandle::OnMessage(FlowMessagePtr msg, uv_stream_t* tcp) {
-    printf("TcpHandle::OnMessage\n");
+    LOG->info("TcpHandle::OnMessage");
 }
 }

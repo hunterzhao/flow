@@ -15,6 +15,7 @@ cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 
 ### run
 - cd bin
+
 > debug way
 
 - ./server    run serverd
@@ -42,10 +43,14 @@ cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 
 - 单元测试，如何写出测试驱动的代码 [参考](https://www.toptal.com/qa/how-to-write-testable-code-and-why-it-matters)
   这篇文字确实不错，但是重构的代价太大了。懒得改了。。。
+
+- 订阅发布 完成:) flow主体完成
+
 ### TODO...
 - 异步情况下，程序如何设计使用？
 - server端并不会管理有哪些客户连接上来了，client端会管理有多少个connect到其他server上了
 - 考虑进程如何关闭线程，干净退出
+- server client manager接口不太干净
 
 ### bug_list:
 1. You cannot call uv_write() or uv_read_start() from a different thread than the one that calls uv_run().
@@ -61,7 +66,7 @@ cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 11. 注意，如果已经生成了so库，那么头文件的防止重复引用的宏就失效了，之后再次引用该头文件就会报重复定义的错误，如果你头文件里面有定义行为的话
 内部链接 外部链接的区别 [参考](http://blog.csdn.net/ithzhang/article/details/8119286) 
 ### the most beautiful images
-
+12. raw指针 shared_ptr指针的相互转换
 
 ### beautiful images
 ![0 error memory](https://github.com/hunterzhao/flow/blob/master/images/happy1.png)

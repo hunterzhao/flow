@@ -234,6 +234,33 @@ flow_loop.cc.s:
 	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_loop.cc.s
 .PHONY : flow_loop.cc.s
 
+flow_manager.o: flow_manager.cc.o
+.PHONY : flow_manager.o
+
+# target to build an object file
+flow_manager.cc.o:
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_manager.cc.o
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_manager.cc.o
+.PHONY : flow_manager.cc.o
+
+flow_manager.i: flow_manager.cc.i
+.PHONY : flow_manager.i
+
+# target to preprocess a source file
+flow_manager.cc.i:
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_manager.cc.i
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_manager.cc.i
+.PHONY : flow_manager.cc.i
+
+flow_manager.s: flow_manager.cc.s
+.PHONY : flow_manager.s
+
+# target to generate assembly for a file
+flow_manager.cc.s:
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_manager.cc.s
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_manager.cc.s
+.PHONY : flow_manager.cc.s
+
 flow_message.o: flow_message.cc.o
 .PHONY : flow_message.o
 
@@ -260,6 +287,33 @@ flow_message.cc.s:
 	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_message.cc.s
 	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_message.cc.s
 .PHONY : flow_message.cc.s
+
+flow_publisher.o: flow_publisher.cc.o
+.PHONY : flow_publisher.o
+
+# target to build an object file
+flow_publisher.cc.o:
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_publisher.cc.o
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_publisher.cc.o
+.PHONY : flow_publisher.cc.o
+
+flow_publisher.i: flow_publisher.cc.i
+.PHONY : flow_publisher.i
+
+# target to preprocess a source file
+flow_publisher.cc.i:
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_publisher.cc.i
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_publisher.cc.i
+.PHONY : flow_publisher.cc.i
+
+flow_publisher.s: flow_publisher.cc.s
+.PHONY : flow_publisher.s
+
+# target to generate assembly for a file
+flow_publisher.cc.s:
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework.dir/build.make src/CMakeFiles/flow_framework.dir/flow_publisher.cc.s
+	cd /mnt/shared/flow/Debug && $(MAKE) -f src/CMakeFiles/flow_framework_so.dir/build.make src/CMakeFiles/flow_framework_so.dir/flow_publisher.cc.s
+.PHONY : flow_publisher.cc.s
 
 flow_queue.o: flow_queue.cc.o
 .PHONY : flow_queue.o
@@ -418,9 +472,15 @@ help:
 	@echo "... flow_loop.o"
 	@echo "... flow_loop.i"
 	@echo "... flow_loop.s"
+	@echo "... flow_manager.o"
+	@echo "... flow_manager.i"
+	@echo "... flow_manager.s"
 	@echo "... flow_message.o"
 	@echo "... flow_message.i"
 	@echo "... flow_message.s"
+	@echo "... flow_publisher.o"
+	@echo "... flow_publisher.i"
+	@echo "... flow_publisher.s"
 	@echo "... flow_queue.o"
 	@echo "... flow_queue.i"
 	@echo "... flow_queue.s"
