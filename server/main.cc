@@ -1,4 +1,4 @@
-#include <thread>
+
 #include <iostream>
 #include <csignal>
 #include <memory>
@@ -30,6 +30,7 @@ public:
   ~TestActor() {}
   int OnStart() {
      LOG->trace("TestActor start");
+     return 1;
   }
 
   int OnEvent(Event e) {
@@ -37,16 +38,18 @@ public:
      LOG->info("receive data : {}",e.msg);
      Publish("topic", "hello this is topic"); //subscribe "a" topic from x1
      LOG->info("TestActor published");
+     return 1;
   }
 
   int OnStop() {
     LOG->trace("TestActor stop");
+    return 1;
   }
 };
 
 class TestStage : public FlowStage {
 public:
-    TestStage(FlowQueuePtr q, int id): FlowStage(q, id) {
+    TestStage(int id): FlowStage(id) {
        //add actor
        FlowActorPtr actor1(new TestActor("happy"));
        AddActor(actor1);
@@ -62,7 +65,7 @@ public:
     
     int OnEvent(FlowMessagePtr msg) {
        //LOG->info("{}",msg->GetOptionStr("data"));
-       session_t session_id = msg->GetOptionInt("session_id");
+       //session_t session_id = msg->GetOptionInt("session_id");
        //session_t session_id = 1;
        std::string receiver = msg->GetOptionStr("receiver");
        Event e;
@@ -90,25 +93,14 @@ int main(int args, char* argv[]) {
     std::signal(SIGINT, handler);
     LoopPtr loop (new Loop());
     FlowManagerPtr manager(new FlowManager);
-    
-    int stageid = 0;
-    FlowQueuePtr p1 = FlowQueueMgr::Instance().CreateQueue(stageid);
-    FlowPublisherPtr publisher(new FlowPublisher(p1, stageid));
-    manager->SetPublisher(publisher);
-    std::thread tha([&publisher]() {publisher->Run();});
-    tha.detach();
-    publisher->SetManager(manager);
-    manager->AddStage(stageid, publisher);
-    
-    stageid = 123;
-    FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(stageid);
-    FlowStagePtr stageA(new TestStage(p, stageid));
-    std::thread tha2([&stageA]() {stageA->Run();});
-    tha2.detach();
-    stageA->SetManager(manager);
-    manager->AddStage(stageid, stageA);
-
     FlowLog::SetLevel(FlowLog::Trace);
+    
+    int stageid = 123;
+    FlowStagePtr stageA(new TestStage(stageid));
+    manager->AddStage(stageA);
+    
+    manager->server_init();
+    
     
     FlowServerPtr server(new FlowServer(loop, manager));
     //FlowManager::Instance().AddHandle(server);

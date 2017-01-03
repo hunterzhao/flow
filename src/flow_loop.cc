@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "flow_loop.h"
-
+#include "flow_log.h"
 namespace flow {
 
 Loop::Loop() {
@@ -14,10 +14,10 @@ Loop::Loop() {
 
 Loop::~Loop() {
 	int ret = uv_loop_close(loop_);
-    std::cout << "happy ending of loop" << std::endl;
-	// if (ret & UV_EBUSY) {
-	// 	LOG(error) << "loop is busy executing";
-	// }
+    LOG->info("happy ending of loop");
+	if (ret & UV_EBUSY) {
+        LOG->error("loop is busy executing");
+	}
 }
 
 uv_loop_t* Loop::self() {
@@ -28,24 +28,24 @@ int Loop::loop_run(loop_mode mode) {
     switch(mode) {
     	case 0: {
     	   int ret = uv_run(loop_, UV_RUN_DEFAULT);
-    	   // if (ret != 0)
-    	   //      LOG(debug) <<"loop stop still exist active request or handle";
+    	   if (ret != 0)
+                LOG->error("loop stop still exist active request or handle");
     	   break;
     	}
     	case 1: {
     	   int ret = uv_run(loop_, UV_RUN_ONCE);
-    	   // if (ret == 0)
-    	   // 	    LOG(debug) <<"loop stop and no request or handle";
-    	   // else
-    	   //      LOG(debug) <<"more callback are expectd, u should run the loop again";
+    	   if (ret == 0)
+                LOG->info("loop stop and no request or handle");
+    	   else
+                LOG->error("more callback are expectd, u should run the loop again");
     	   break;
     	}
     	case 2: {
     	   int ret = uv_run(loop_, UV_RUN_NOWAIT);
-    	   // if (ret == 0) 
-    	   // 	    LOG(debug) <<"loop stop and no request or handle";
-    	   // 	else
-    	   // 		LOG(debug) <<"more callback are expectd, u should run the loop again";
+    	   if (ret == 0) 
+                LOG->info("loop stop and no request or handle");
+    	   	else
+    	   		LOG->info("more callback are expectd, u should run the loop again");
     	   break;
     	}
     	default: {

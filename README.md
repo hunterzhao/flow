@@ -46,11 +46,14 @@ cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 
 - 订阅发布 完成:) flow主体完成
 
+- 清理了一下接口
+
 ### TODO...
 - 异步情况下，程序如何设计使用？
 - server端并不会管理有哪些客户连接上来了，client端会管理有多少个connect到其他server上了
 - 考虑进程如何关闭线程，干净退出
 - server client manager接口不太干净
+- 定时器功能
 
 ### bug_list:
 1. You cannot call uv_write() or uv_read_start() from a different thread than the one that calls uv_run().
@@ -67,6 +70,6 @@ cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 内部链接 外部链接的区别 [参考](http://blog.csdn.net/ithzhang/article/details/8119286) 
 ### the most beautiful images
 12. raw指针 shared_ptr指针的相互转换
-
+13. 线程退出有问题
 ### beautiful images
 ![0 error memory](https://github.com/hunterzhao/flow/blob/master/images/happy1.png)

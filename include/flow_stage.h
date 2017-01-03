@@ -13,7 +13,7 @@ DEFINE_SHARED_PTR(FlowActor);
 DEFINE_SHARED_PTR(FlowManager);
 class FlowStage {
 public:
-	FlowStage(FlowQueuePtr queue, int id);
+	FlowStage(int id);
 	virtual ~FlowStage();
 	virtual void Run(); // for thread
     virtual int OnEvent(FlowMessagePtr msg);
@@ -24,8 +24,10 @@ public:
     int RemoveActor(std::string actorid);
     FlowActorPtr GetActor(std::string);
     
-    FlowManagerPtr GetManager();
-    int SetManager(FlowManagerPtr);
+    FlowManager* GetManager();
+    int SetManager(FlowManager*);
+    
+    int SetQueue(FlowQueuePtr q);
 
     int Getid();
 
@@ -35,10 +37,9 @@ public:
 
     
 private:
-	int stageid_;
-	FlowManagerPtr manager_;
+	FlowManager* manager_;
 	FlowQueuePtr queue_;
-
+    int stageid_;
 protected:
 	std::unordered_map<std::string, FlowActorPtr> actorMap_;
 };

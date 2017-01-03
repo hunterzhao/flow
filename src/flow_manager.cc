@@ -1,4 +1,6 @@
 #include <memory>
+#include <thread>
+
 #include "flow_manager.h"
 #include "flow_client.h"
 #include "flow_publisher.h"
@@ -13,8 +15,31 @@ FlowManager::~FlowManager() {
 
 }
 
-int FlowManager::AddStage(int stageid, FlowStagePtr stage) {
-    stageMap_[stageid] = stage;
+int FlowManager::server_init() {
+	//start publisher
+	int stageid = 0;
+	FlowPublisherPtr publisher(new FlowPublisher(stageid));
+    FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(stageid);
+    publisher->SetQueue(p);
+    //AddStage(stageid, publisher);
+    SetPublisher(publisher);
+    
+    publisher->SetManager(this);
+    std::thread tha([publisher]() {publisher->Run();});
+    tha.detach();
+
+    StartStage();
+    
+    return 1;
+}
+
+int FlowManager::client_init() {
+    StartStage();
+	return 1;
+}
+
+int FlowManager::AddStage(FlowStagePtr stage) {
+    stageMap_[stage->Getid()] = stage;
     return 0;
 }
 
@@ -43,21 +68,34 @@ int FlowManager::actor2stage(const std::string& id) {
 		FlowStagePtr stage = it->second;
 		if(stage->GetActor(id) != nullptr) {
 			return stage->Getid();
-		}
-		return -1;
+		}		
 	}
+	LOG->warn("not found actor {}", id);
+	return -1;
 }
 
 int FlowManager::SetPublisher(FlowPublisherPtr publisher) {
    publisher_ = publisher;
+   return 1;
 }
 
 FlowPublisherPtr FlowManager::GetPublisher() {
    return publisher_;
 }
 
-int FlowManager::StartStage(const std::string& id) {}
-int FlowManager::StopStage(const std::string& id) {}
+int FlowManager::StartStage() { 
+     //start stages
+    for(auto it = stageMap_.begin(); it != stageMap_.end(); it++) {
+         FlowStagePtr stage = it->second;
+         FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(stage->Getid());
+         stage->SetQueue(p);
+         stage->SetManager(this);
+         std::thread tha([stage]() {stage->Run();});
+		 tha.detach();
+    }
+	return 1;
+}
+int FlowManager::StopStage(const std::string& id) {return 1;}
 
 
 }

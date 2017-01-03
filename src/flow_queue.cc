@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include "flow_log.h"
 #include "flow_queue.h"
 
 namespace flow {
@@ -32,7 +32,7 @@ int FlowQueueMgr::RemoveQueue(int id) {
 int FlowQueueMgr::SendMessage(int id, FlowMessagePtr msg) {
 	auto it = queues_.find(id);
 	if (it == queues_.end()) {
-		std::cout << " queue is not exist\n"<<std::endl;
+		LOG->error("queue for {} is not exist", id);
 		return -1;
 	}
 	return it->second->PushOne(msg);

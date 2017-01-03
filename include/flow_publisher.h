@@ -17,10 +17,13 @@ struct subscriber {
 class FlowPublisher : public FlowStage {
 public:
 	//receive message and prepare to publish
-	FlowPublisher(FlowQueuePtr queue, int id) : FlowStage(queue, id) {}
+	FlowPublisher(int id) : FlowStage(id) {}
 	~FlowPublisher() {}
     int OnEvent(FlowMessagePtr msg);
     int AddSubsribe(std::string topic, std::string sender, session_t session_id);
+    int OnStart() {return 1;}
+    int OnStop() {return 1;}
+
 private:
     std::unordered_map<std::string, std::vector<subscriber> > subscribeMap_;
 };

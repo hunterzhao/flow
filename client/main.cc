@@ -24,13 +24,16 @@ public:
         Subscribe("x1","topic");
               // conn receiver data
         Request("x1","happy", "topic", "happy new year");
+        return 1;
     }
     int OnEvent(Event e) {
         LOG->trace("TestActor topic: {}", e.topic);
         LOG->trace("TestActor msg: {}", e.msg);
+        return 1;
     }
     int OnStop() {
         LOG->trace("hello, i am actor, over");
+        return 1;
     }
 
 };
@@ -54,7 +57,7 @@ public:
 };
 class TestStage : public FlowStage {
 public:
-    TestStage(FlowQueuePtr q, int id): FlowStage(q, id)  {
+    TestStage(int id): FlowStage(id)  {
        //add actors
         FlowActorPtr actor1(new TestActor("test"));
         AddActor(actor1);
@@ -74,12 +77,12 @@ public:
        e.msg = msg->GetOptionStr("data");
        e.topic = msg->GetOptionStr("topic");
 
-       auto it = actorMap_.find(receiver);
-       if (it != actorMap_.end())
-          it->second->OnEvent(e);
-        else
+       auto recv = GetActor(receiver);
+       if (recv != nullptr)
+          recv->OnEvent(e);
+       else
           LOG->error("the receiver {} doesn't exist", receiver); 
-       return 1;
+        return 1;
     }
 
     int OnStop(FlowMessagePtr msg) {
@@ -92,15 +95,18 @@ public:
 
 void make_stage(FlowManagerPtr manager) {
    std::unique_lock<std::mutex> lck(mtx_);
-   cv.wait(lck, [&connects] { return connects==0;});  // all the connects have been set
+   cv.wait(lck, [] { return connects==0;});  // all the connects have been set
    LOG->info("all connects have been set, start to make stage"); //slow the speed, one stage won't use all connects
+   
+   //one stage
    int stageid = 321;
-   FlowQueuePtr p = FlowQueueMgr::Instance().CreateQueue(stageid);
-   FlowStagePtr stageA(new TestStage(p, stageid));
-   stageA->SetManager(manager);
-   manager->AddStage(stageid, stageA);
-   std::thread tha([&stageA]() {stageA->Run();});
-   tha.join();
+   FlowStagePtr stageA(new TestStage(stageid));
+   manager->AddStage(stageA);
+   
+   //two stage
+
+   manager->client_init();
+   // tha.join();
 }
 
 DEFINE_SHARED_PTR(TestClient);

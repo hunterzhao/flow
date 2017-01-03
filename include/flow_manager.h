@@ -17,13 +17,13 @@ public:
     FlowManager();
 	~FlowManager();
     
-    int AddStage(int stageid, FlowStagePtr stage);
+    int AddStage(FlowStagePtr stage);
     FlowStagePtr GetStage(int stageid);
 
     int AddConn(std::string conn, FlowClient* client);
     FlowClient* GetConn(std::string conn);
     
-    int StartStage(const std::string& id);
+    int StartStage();
     int StopStage(const std::string& id);
     
     //iterator stages to find actor
@@ -33,6 +33,9 @@ public:
 
     FlowPublisherPtr GetPublisher();
 
+    int server_init();
+    
+    int client_init();
 private:
     std::unordered_map<int, FlowStagePtr> stageMap_; // for client and server to manager stages
     std::unordered_map<std::string, FlowClient*> connMap_;  //for client to manage connections more than one

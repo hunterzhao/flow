@@ -5,7 +5,7 @@
 #include "flow_publisher.h"
 #include "flow_client.h"
 namespace flow {
-FlowStage::FlowStage(FlowQueuePtr queue, int id) : queue_(queue), stageid_(id) {
+FlowStage::FlowStage(int id) : stageid_(id) {
 
 }
 
@@ -36,11 +36,12 @@ void FlowStage::Run() {
 int FlowStage::AddActor(FlowActorPtr actor) {
     actorMap_[actor->Getid()] = actor;
     actor->SetStage(this);
-    
+    return 1;
 }
 
 int FlowStage::RemoveActor(std::string actorid) {
     actorMap_.erase(actorid);
+    return 1;
 }
 
 FlowActorPtr FlowStage::GetActor(std::string actorid) {
@@ -49,13 +50,18 @@ FlowActorPtr FlowStage::GetActor(std::string actorid) {
     else return it->second;
 }
 
-FlowManagerPtr FlowStage::GetManager() {
+FlowManager* FlowStage::GetManager() {
     return manager_;
 }
-int FlowStage::SetManager(FlowManagerPtr manager) {
+int FlowStage::SetManager(FlowManager* manager) {
     manager_=manager;
+    return 1;
 }
 
+int FlowStage::SetQueue(FlowQueuePtr q) {
+    queue_ = q;
+    return 1;
+}
 int FlowStage::OnEvent(FlowMessagePtr msg) {
    return 1;
 }
@@ -81,7 +87,9 @@ int FlowStage::Getid() {
 int FlowStage::Publish(FlowMessagePtr msg) {
   FlowPublisherPtr publisher = manager_->GetPublisher();
   FlowQueueMgr::Instance().SendMessage(publisher->Getid(), msg); 
+  return 1;
 }
+
 int FlowStage::Request(std::string conn_id, FlowMessagePtr msg) {
   FlowClient* client = manager_->GetConn(conn_id);
   if(client == nullptr) {
@@ -90,7 +98,9 @@ int FlowStage::Request(std::string conn_id, FlowMessagePtr msg) {
   }
   LOG->info("{} connection prepare to send Request", conn_id);
   client->SendMessage(msg);
+  return 1;
 }
+
 int FlowStage::Subscribe(std::string conn_id, FlowMessagePtr msg) {
   FlowClient* client = manager_->GetConn(conn_id);
    if(client == nullptr) {
@@ -99,5 +109,6 @@ int FlowStage::Subscribe(std::string conn_id, FlowMessagePtr msg) {
   }
   LOG->info("{} connection prepare to send Subscribe", conn_id);
   client->SendMessage(msg);
+  return 1;
 }
 }

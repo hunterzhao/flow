@@ -6,7 +6,6 @@ int FlowPublisher::OnEvent(FlowMessagePtr msg) {
      //get topic and search
 	 std::string topic = msg->GetOptionStr("topic");
 	 auto it = subscribeMap_.find(topic);
-
      if (it != subscribeMap_.end()) {
 	    std::vector<subscriber> subs = it->second;
 	    for(auto sub : subs) {
