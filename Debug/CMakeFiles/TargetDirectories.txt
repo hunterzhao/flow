@@ -1,4 +1,0 @@
-/mnt/shared/flow/Debug/client/CMakeFiles/clientd.dir
-/mnt/shared/flow/Debug/src/CMakeFiles/flow_framework.dir
-/mnt/shared/flow/Debug/src/CMakeFiles/flow_framework_so.dir
-/mnt/shared/flow/Debug/server/CMakeFiles/serverd.dir
