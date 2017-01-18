@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(flow)
-
+set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pthread -g -std=c++11 -Wall -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -pthread -std=c++11 -Wall -O2")
 

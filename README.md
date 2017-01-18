@@ -70,6 +70,6 @@ cd Release && cmake  -DCMAKE_BUILD_TYPE=Release .. && make
 内部链接 外部链接的区别 [参考](http://blog.csdn.net/ithzhang/article/details/8119286) 
 ### the most beautiful images
 12. raw指针 shared_ptr指针的相互转换
-13. 线程退出有问题
+13. 线程退出有问题 调试能力有待提高啊，一直对着望，不知如何下手
 ### beautiful images
 ![0 error memory](https://github.com/hunterzhao/flow/blob/master/images/happy1.png)
